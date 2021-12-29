@@ -1,0 +1,12 @@
+Usage: wg [option] [label]
+Options: -h --help  Shows this help message.
+         -l --list  List the available games along with their respective labels.
+         -r --run   Runs the game with wine.
+In this program, games are assigned labels which are used as shortcuts to refer
+to the game when running a command. The format of games when running this
+program with -l are as follows:
+[label]: [name of game]
+Example:
+mbaacc: Melty Blood Actress Again Current Code
+To run a game, use -r or --run and then the label of the desired game as the
+last argument. For example: wg -r mbaacc

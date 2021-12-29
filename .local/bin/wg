@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+
+"""
+This program is a CLI game launcher. Specifically, it launches games meant for Windows using wine. It can also list games available. Setting up games with wine is upto the user to do, including managing wineprefixes (wine bottles) for their games as well as updating the csv file the program parses.
+"""
+
+import csv
+import getopt
+import os
+import subprocess
+import sys
+
+
+program_dir = '/home/alpuds/.local/share/wg/'
+csv_path = program_dir + 'games.csv'
+help_path = program_dir + 'wgHelp.txt'
+
+
+def print_help():
+    with open(help_path, 'r') as file:
+        for line in file:
+            print(line)
+
+
+def print_games():
+    """ Prints the games and their respective labels from a csv file, games.csv """
+    with open(csv_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+
+        print('Games')
+        for line in csv_reader:
+            print(f"{line['label']}: {line['game']}")
+
+
+def game_csv(label, field2):
+    """ This essentially returns the value of a field that is on the same line as the other field value. """
+    with open(csv_path, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+
+        for line in csv_reader:
+            if line['label'] == label:
+                return line[field2]
+
+
+argv = sys.argv[1:]
+opts, args = getopt.getopt(argv, 'hlr:', ['help', 'list', 'run'])
+
+# If no arguments are used for the program, it will inform the user on how to get more information regarding how to use the program.
+try:
+    if sys.argv[1] == '':
+        pass
+except IndexError:
+    print('Missing option. Type "wg -h" to get information on how to use the program.')
+
+
+try:
+    for opt, arg in opts:
+        if opt in ['-l', '--list']:
+            print_games()
+        elif opt in ['-h', '--help']:
+            print_help()
+        elif opt in ['-r', '--run']:
+            os.chdir(str(game_csv(arg, 'path')))
+            subprocess.call(['wine', str(game_csv(arg, 'bin'))])
+
+except getopt.GetoptError:
+    print('Invalid argument(s).')
+    print('Type "-h" or "--help" to print a help message')
