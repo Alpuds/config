@@ -1,0 +1,61 @@
+snippet cjkenv "CJK environment to output Japanese text"
+\begin{CJK}{UTF8}{min}
+$1
+\end{CJK}
+$2
+endsnippet
+
+snippet cjkil "CJK environment in line"
+{\begin{CJK}{UTF8}{min}$1\end{CJK}} $2
+endsnippet
+
+snippet fgr "Figure environment"
+\begin{figure}
+    $1
+\end{figure}
+$2
+endsnippet
+
+snippet wrpfig "Wrap figure environment"
+\begin{wrapfigure}{${1:position}}{${2:space}}
+	$3
+\end{wrapfigure}
+$4
+endsnippet
+
+snippet ctr "Center environment"
+\begin{center}
+    $1
+\end{center}
+$2
+endsnippet
+
+snippet enmrt "Enumerate environment (ordered list)"
+\begin{enumerate}
+	\item{$1}
+\end{enumerate}
+$2
+endsnippet
+
+snippet itmz "Itemize environment (unordered list)"
+\begin{itemize}
+    \item{$1}
+\end{itemize}
+$2
+endsnippet
+
+snippet itm "\item{}"
+\item{$1}
+endsnippet
+
+snippet pic "Insert graphics"
+\includegraphics[${1:size}]{${2:picture}}
+endsnippet
+
+snippet bf "Bold face"
+\textbf{$1} $2
+endsnippet
+
+snippet itlc "Italics"
+\textit{$1} $2
+endsnippet

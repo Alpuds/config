@@ -1,0 +1,27 @@
+#!/bin/sh
+dir='~/Videos/yt'
+tput clear
+tput cup 05 10
+read -p 'URL: ' URL
+# The command below shows options to pick from
+yt-dlp -F $URL
+echo "Type '3' for best audio and video together"
+echo "Type '2' for the labled best"
+echo "Type '1' to exit shell script"
+read -p "Format Code: " code
+read code
+[ -d ~/Videos/yt ] || mkdir ~/Videos/yt
+# The line above checks for a directory called 'yt' in that path
+# If the directory does not exist, it will create it
+case "$code" in    # Below are shortcuts to download a video or exit
+  3)
+    yt-dlp -P $dir -f bestvideo+bestaudio $URL
+    ;;
+  2)
+    yt-dlp -P $dir -f best $URL
+    ;;
+  1)
+    exit 0
+    ;;
+esac
+[ $code > 3 ] && yt-dlp -P $dir -f $code $URL
