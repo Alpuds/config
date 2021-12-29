@@ -2,14 +2,15 @@
 #
 # first argument: email address
 #
-# using secret-tool to get the secrets stored in keyring
+# using pass to get the secrets stored in a password-store
 # using oauth2 cript from google-oauth2-tools
 # (https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py) to
 # connect to google and obtain the oauth2 token
 #
-# client-secret, client-id and refresh should be already in the keyring, you
+# client-secret, client-id and refresh should be already in the password-store
+# located in .local/share/mail-password-store/gmailAPI/[email address]/, you
 # must do the first step from the comments in the oauth2.py script before using
-# this script and use secret-tool to store the attributes. You have to do that
+# this script and use pass to store the attributes. You have to do that
 # only one time. After that you can use this script to get a valid token. New
 # tokens are requested if the stored token have expired.
 #
