@@ -10,6 +10,9 @@ Xcursor.size:32
 !! sxiv background color
 Sxiv.background: #121212
 
+!! sxiv foreground color
+Sxiv.foreground: #e66419
+
 /* name		dark	light */
 /* black	0	8 */
 /* red		1	9 */
