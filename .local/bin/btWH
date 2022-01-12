@@ -1,0 +1,22 @@
+#!/bin/sh
+
+helpMsg(){
+    cat <<END
+    Usage: btWH [command]
+    commands:
+    c     connect the device to the computer.
+
+    d     disconnect the devive from the computer.
+END
+}
+
+device='device MAC address'
+
+case $1 in
+    c)
+        echo "connect $device" | bluetoothctl ;;
+    d)
+        echo "disconnect $device" | bluetoothctl ;;
+    *)
+        helpMsg ;;
+esac
