@@ -1,8 +1,8 @@
 # vim: filetype=sh
 alias cac="cd /home/alpuds/.cache && ls -a" \
 cf="cd /home/alpuds/.config && ls -a" \
-D="cd /home/alpuds/Downloads && ls -a" \
-d="cd /home/alpuds/Documents && ls -a" \
+d="cd /home/alpuds/Downloads && ls -a" \
+D="cd /home/alpuds/Documents && ls -a" \
 dt="cd /home/alpuds/.local/share && ls -a" \
 rr="cd /home/alpuds/.local/src && ls -a" \
 h="cd /home/alpuds && ls -a" \
