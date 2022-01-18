@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+gameList=~/.local/share/gl/games.csv
+
+helpMsg(){
+    cat <<END
+Usage: gl [OPTION...]
+OPTION:
+The argument for the long form of an option has to be used for the short form as well
+(e.g., --run=mbaacc would be -r mbaacc.).
+
+-l --list
+     List games that are available.
+-r --run=TYPE LABEL
+     Run the game that LABEL is assigned to. TYPE is the type of game that the
+     program should handle it as. For Windows games, substitute TYPE with "w" or
+     "windows". For native games, substitute TYPE with "n" or "native".
+
+The format that games are listed is this:
+[TYPE], [LABEL]: [game]
+For example:
+w, mbaacc: Melty Blood Actress Again Current Code
+END
+}
+
+checkError(){
+    [ $? -eq 1 ] && echo 'An error occurred.' && exit 1
+}
+
+listGames(){
+    while IFS=, read -r type game label path bin; do
+        echo "$type, $label: $game"
+    done < <(tail -n +2 $gameList)
+}
+
+runWindowsGame(){
+    while IFS=, read -r type game label path bin; do
+        [ $label = $1 ] && cd $path && wine $bin
+    done < $gameList
+}
+
+runNativeGame(){
+    while IFS=, read -r type game label path bin; do
+        [ $label = $1 ] && cd $path && ./$bin
+    done < $gameList
+}
+
+case $1 in
+    -l | --list)
+        listGames
+        ;;
+    -r)
+        if [[ $2 == 'w' || $2 == 'windows' ]]; then
+            runWindowsGame $3
+            checkError
+        elif [[ $2 == 'n' || $2 == 'native' ]]; then
+            runNativeGame $3
+            checkError
+        else
+            echo -e "Invalid argument ($2).\nTry 'gl -h' for more information."
+        fi
+        ;;
+    --run=*)
+        if [[ $1 == '--run=w' || $1 == '--run=windows' ]]; then
+            runWindowsGame $2
+            checkError
+        elif [[ $1 == '--run=n' || $1 == '--run=native' ]]; then
+            runNativeGame $2
+            checkError
+        else
+            echo -e "Invalid argument ($2).\nTry 'gl -h' for more information."
+        fi
+        ;;
+    *)
+        helpMsg
+        ;;
+esac
