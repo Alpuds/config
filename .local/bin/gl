@@ -58,6 +58,7 @@ case $1 in
             checkError
         else
             echo -e "Invalid argument ($2).\nTry 'gl -h' for more information."
+            exit 1
         fi
         ;;
     --run=*)
@@ -69,6 +70,7 @@ case $1 in
             checkError
         else
             echo -e "Invalid argument ($2).\nTry 'gl -h' for more information."
+            exit 1
         fi
         ;;
     *)
