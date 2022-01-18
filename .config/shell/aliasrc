@@ -41,7 +41,6 @@ alias \
     btctl="bluetoothctl" \
     tagedt="tageditor" \
     ep="chmod +x" \
-    mcl="minecraft-launcher" \
 	g="git" \
 	trem="transmission-remote" \
 	YT="youtube-viewer" \
