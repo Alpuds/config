@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# This script tests internet connection using ipv4 and ipv6 by visiting
+# websites that use them. Additionally, it also test YouTube video playback to
+# see if that works. The script also plays a local video, runs a system
+# monitor, and runs bluetoothctl in their own windows.
+
+
+videoPlayer=mpv
+systemMonitor=bpytop
+
+# The website that test ipv4 and ipv6 connection
+ipvTestUrl=ipv6-test.com
+
+# Naruto and Sasuke vs Momoshiki YouTube video
+youtubeUrl=youtu.be/RzClCJFpSoM?t=25
+
+# Delusion Girl by TOUYU (灯油)
+# source: nicovideo.jp/watch/sm31917694
+localVideo=~/Videos/mv/vocaloid/delusionGirl.mp4
+
+
+# Open URLs using web browsers
+brave --new-window --incognito $ipvTestUrl $youtubeUrl &
+st -e firefox --private-window $ipvTestUrl &
+firefox --private-window $youtubeUrl &
+
+# Play local video
+st -e $videoPlayer $localVideo &
+
+# Run bluetoothctl in another terminal
+st -e bluetoothctl &
+
+# Give the web browsers time to load so Bpytop (system monitor) can work.
+# Bpytop needs a windows size that is not too narrow and small. So, it being the
+# last program that will run would mean it will have the master spot (biggest window) to ensure
+# it will work (if you have a dynamic tiling window manager like dwm from
+# suckless).
+sleep 8
+
+# Run the system monitor
+st -e $systemMonitor
