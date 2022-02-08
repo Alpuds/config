@@ -7,7 +7,7 @@
 
 
 videoPlayer=mpv
-systemMonitor=bpytop
+systemMonitor=btop
 
 # The website that test ipv4 and ipv6 connection
 ipvTestUrl=ipv6-test.com
@@ -34,8 +34,7 @@ st -e bluetoothctl &
 # Give the web browsers time to load so Bpytop (system monitor) can work.
 # Bpytop needs a windows size that is not too narrow and small. So, it being the
 # last program that will run would mean it will have the master spot (biggest window) to ensure
-# it will work (if you have a dynamic tiling window manager like dwm from
-# suckless).
+# it will work (if the tiling layout has a master and stacking area like dwm).
 sleep 8
 
 # Run the system monitor
