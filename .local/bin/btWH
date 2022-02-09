@@ -14,6 +14,8 @@ device='device MAC address'
 
 case $1 in
     c)
+        echo 'power on' | bluetoothctl
+        sleep 1
         echo "connect $device" | bluetoothctl ;;
     d)
         echo "disconnect $device" | bluetoothctl ;;
