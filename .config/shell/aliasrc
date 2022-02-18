@@ -37,6 +37,7 @@ alias \
 # These common commands are just too long! Abbreviate them.
 alias \
 	ka="killall" \
+    updtML="sudo reflector --country 'United States' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist" \
     trst="pkill -USR1 redshift" \
     aftcli="aft-mtp-cli" \
     btctl="bluetoothctl" \
