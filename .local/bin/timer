@@ -1,0 +1,32 @@
+#!/bin/sh
+
+sound='a media file'
+colorBEGIN='\033[1;36m' # This makes the text be colored cyan and be bolded
+colorEND='\033[0m' # This makes the text following it be normal/plain
+
+helpMsg(){
+    cat << END
+Usage: timer [OPTION] NUMBER[SUFFIX] MESSAGE [MESSAGE_BODY]
+Count down from NUMBER seconds and
+send a notification with MESSAGE as the title and MESSAGE_BODY as the body of the notification.
+
+NUMBER must be an integer
+SUFFIX is the unit of time. It can be 's' for seconds, 'm' for minutes, 'h' for hours or 'd' for days.
+If SUFFIX is omitted, NUMBER will be in seconds.
+
+  -s, --sound               play a media file once time is up
+  -h, --help                displays this help text and exits the script
+END
+}
+
+# If the first argument is '-s' or '--sound', then the second argument is probably the time.
+# If '-s' or '--sound' is not the first argument, then time is probably the first argument.
+# The same logic goes with the rest of the arguments and their corresponding positions.
+case $1 in
+    -s | --sound) doSound="mpv $sound" ; time=$2 ; message=$3; messageBody=$4;;
+    -h | --help) helpMsg ; exit;;
+    *) time=$1 ; message=$2; messageBody=$3;;
+esac
+
+# The timer itself
+sleep $time | pv && notify-send "$message" "$messageBody" && echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND" ; $doSound
