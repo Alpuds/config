@@ -1,6 +1,10 @@
 #!/bin/sh
 
-sound='a media file'
+# This script is timer that counts down from a specified time
+# and then sends a desktop notification with its chosen content.
+# It also prints the time when the timer went off.
+
+defaultSound='a media file' # Default media file that is played when the timer goes off
 colorBEGIN='\033[1;36m' # This makes the text be colored cyan and be bolded
 colorEND='\033[0m' # This makes the text following it be normal/plain
 
@@ -11,13 +15,27 @@ Count down from NUMBER seconds and send a notification with MESSAGE as the title
 and MESSAGE_BODY as the body of the notification once the specified time (NUMBER[SUFFIX])
 has passed.
 
-NUMBER must be an integer
+NUMBER must be an integer.
 SUFFIX is the unit of time. It can be 's' for seconds, 'm' for minutes, 'h' for hours or 'd' for days.
 If SUFFIX is omitted, NUMBER will be in seconds.
 
-  -s, --sound               play a media file once time is up
+  -s, --sound[=FILE]        play a media file once time is up.
+                              FILE is a media file to be played.
+                              If FILE is omitted, a default file
+                              will be used.
   -h, --help                displays this help text and exits the script
 END
+}
+
+abort_or_default(){
+    echo "The file '$1' does not exist."
+    echo "The default sound is '$defaultSound'"
+    read -r -p 'Use the default sound? [y/N] ' ans
+    if [ "$ans" = y ]; then
+        return 0
+    else
+        exit 0
+    fi
 }
 
 # Shows text on how to use timer if no arguments were passed in
@@ -27,10 +45,40 @@ END
 # If '-s' or '--sound' is not the first argument, then time is probably the first argument.
 # The same logic goes with the rest of the arguments and their corresponding positions.
 case $1 in
-    -s | --sound) doSound="mpv $sound" ; time=$2 ; message=$3; messageBody=$4;;
+    -s)
+        if [ -f $2 ]; then
+            doSound="mpv $2" && time=$3; message=$4; messageBody=$5
+        else
+            # Checks if the second argument is a valid time (e.g., 39m)
+            echo $2 | grep '^[0-9]\+[smh]\?$' && arg2=validTime
+
+            if [ "$arg2" = validTime ]; then
+                doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
+            else
+                # If the second argument is not a file nor is it a valid time,
+                # then the user has a choice to abort or continue with the defult sound.
+                abort_or_default $2 && doSound="mpv $defaultSound"; time=$3; message=$4; messageBody=$5
+            fi
+        fi
+        ;;
+    --sound) doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4;;
+    --sound=*)
+        # Essentially, ${1#*=} deletes anything that ends with '='. In this instance, '--sound=' will be deleted,
+        # leaving the characters after '=' to stay. Example: artoria=saber -> saber
+        if [ -f ${1#*=} ]; then
+            # If there is nothing after '=', then abort_or_default will execute.
+            if [ $(echo $1 | wc -c) = 9 ]; then
+                abort_or_default && doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
+            else
+                doSound="mpv ${1#*=}" time=$2; message=$3; messageBody=$4
+            fi
+        else
+            abort_or_default ${1#*=} && doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
+        fi
+        ;;
     -h | --help) helpMsg ; exit;;
-    *) time=$1 ; message=$2; messageBody=$3;;
+    *) time=$1; message=$2; messageBody=$3;;
 esac
 
 # The timer itself
-sleep $time | pv && notify-send "$message" "$messageBody" && echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND" ; $doSound
+sleep $time | pv && notify-send "$message" "$messageBody" && echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND"; $doSound
