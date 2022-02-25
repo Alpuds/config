@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Toggle redshift on or off
+pkill -USR1 redshift
