@@ -50,7 +50,7 @@ case $1 in
             doSound="mpv $2" && time=$3; message=$4; messageBody=$5
         else
             # Checks if the second argument is a valid time (e.g., 39m)
-            echo $2 | grep '^[0-9]\+[smh]\?$' && arg2=validTime
+            echo $2 | grep '^[0-9]\+[smh]\?$' > /dev/null && arg2=validTime
 
             if [ "$arg2" = validTime ]; then
                 doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
