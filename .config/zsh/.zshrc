@@ -32,12 +32,6 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots) # Include hidden files
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Z-a-z}' # Case insensitive matching
-# autoload -U compinit
-# zstyle ':completion:*' menu select
-# zmodload zsh/complist
-# compinit
-# _comp_options+=(globdots)		# Include hidden files.
-# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case insensitive matching
 
 # vi mode
 bindkey -v
