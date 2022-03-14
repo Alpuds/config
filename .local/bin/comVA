@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# This script is for audio being ahead of video (basically video is late).
+# Combine video and audio files along with adding a delay to the audio stream
+# so it is synced with the video.
+
+helpMsg(){
+    cat << END
+Usage: comVA VIDEO OFFSET AUDIO OUTPUT
+Combine video and audio files with the audio stream
+being delayed by OFFSET. OFFSET is the time duration that
+the audio stream will be delayed before playing.
+
+See ffmpeg-utils manual page for valid time duration format for OFFSET.
+END
+}
+
+# -map 0:0 will take the first input file's video stream for
+# the output's first stream.
+# -map 1:0 will take the second input file's (audio file)
+# stream be the second stream of the output.
+[ $# = 0 ] && helpMsg || ffmpeg -i $1 -itsoffset $2 -i $3 -c copy -map 0:0 -map 1:0 $4
