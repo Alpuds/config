@@ -1,0 +1,22 @@
+#!/bin/sh
+
+helpMsg(){
+cat << END
+Usage: 7zEnc ARCHIVE SOURCE
+Make an encrypted 7z archive with a password as well as mx=9 (ultra) compression.
+
+The compression method used is lzma2.
+END
+}
+
+if [ $# -eq 0 ]; then
+    helpMsg
+else
+    archive="$1"
+    source="$2"
+
+    7zz a \
+      -t7z -m0=lzma2 -mx=9 -mfb=64 \
+      -md=32m -ms=on -mhe=on -p \
+       "$archive" "$source"
+fi
