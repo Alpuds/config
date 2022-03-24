@@ -23,7 +23,7 @@ If SUFFIX is omitted, NUMBER will be in seconds.
                               FILE is a media file to be played.
                               If FILE is omitted, a default file
                               will be used.
-  -h, --help                displays this help text and exits the script
+  -h, --help                display this help text and exits the script
 END
 }
 
@@ -50,7 +50,8 @@ case $1 in
             doSound="mpv $2" && time=$3; message=$4; messageBody=$5
         else
             # Checks if the second argument is a valid time (e.g., 39m)
-            echo $2 | grep -q '^[0-9]\+[smh]\?$' && arg2=validTime
+            # Since the amount of valid times is infnite, the regex only supports upto 4 "arguments" (e.g., 1d 2h 3m 4s)
+            echo $2 | grep -qE '^[0-9]+[smhd]?\s*([0-9]+[smhd]?)?\s*([0-9]+[smhd]?)?\s*([0-9]+[smhd]?)?\s*$' && arg2=validTime
 
             if [ "$arg2" = validTime ]; then
                 doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
