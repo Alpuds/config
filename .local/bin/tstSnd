@@ -1,0 +1,5 @@
+#!/bin/sh
+
+sound='an audio file'
+
+mpv $sound
