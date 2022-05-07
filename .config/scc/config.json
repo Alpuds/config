@@ -1,0 +1,78 @@
+{
+    "autoswitch": [], 
+    "autoswitch_osd": true, 
+    "controllers": {
+        "ds4": {
+            "icon": "ds4evdev-0.svg", 
+            "idle_timeout": 600, 
+            "input_rotation_l": 20, 
+            "input_rotation_r": -20, 
+            "led_level": 80, 
+            "menu_cancel": "B", 
+            "menu_confirm": "A", 
+            "menu_control": "STICK", 
+            "name": "ds4", 
+            "osd_alignment": 0
+        }
+    }, 
+    "drivers": {
+        "ds4drv": true, 
+        "evdevdrv": true, 
+        "fake": false, 
+        "hiddrv": true, 
+        "sc_by_bt": true, 
+        "sc_by_cable": true, 
+        "sc_dongle": true
+    }, 
+    "enable_sniffing": false, 
+    "fix_xinput": true, 
+    "gesture_colors": {
+        "background": "160c00ff", 
+        "grid": "004000ff", 
+        "line": "ffffff1a"
+    }, 
+    "gui": {
+        "autokill_daemon": false, 
+        "enable_status_icon": false, 
+        "minimize_on_start": false, 
+        "minimize_to_status_icon": true, 
+        "news": {
+            "enabled": true, 
+            "last_version": "0.4.8"
+        }
+    }, 
+    "ignore_serials": true, 
+    "osd_color_theme": null, 
+    "osd_colors": {
+        "background": "010101", 
+        "border": "e66100", 
+        "menuitem_border": "040000", 
+        "menuitem_hilight": "060000", 
+        "menuitem_hilight_border": "ff0000", 
+        "menuitem_hilight_text": "11cdd3", 
+        "menuseparator": "75bf3f", 
+        "text": "e66100"
+    }, 
+    "osd_style": "Classic.gtkstyle.css", 
+    "osk_colors": {
+        "button1": "160282", 
+        "button1_border": "262b5e", 
+        "button2": "162d44", 
+        "button2_border": "27323e", 
+        "hilight": "00688d", 
+        "pressed": "1a9485", 
+        "text": "ffffff"
+    }, 
+    "output": {
+        "axes": [[-32768, 32767], [-32768, 32767], [-32768, 32767], [-32768, 32767], [0, 255], [0, 255], [-1, 1], [-1, 1]], 
+        "buttons": 11, 
+        "name": "Microsoft X-Box 360 pad", 
+        "product": "0x028e", 
+        "rumble": true, 
+        "vendor": "0x045e", 
+        "version": "0x110"
+    }, 
+    "recent_max": 10, 
+    "recent_profiles": ["PPD", "Desktop", "normal", "XBox Controller", "XBox Controller with High Precision Camera", "Normal ds4"], 
+    "windows_opacity": 0.95
+}

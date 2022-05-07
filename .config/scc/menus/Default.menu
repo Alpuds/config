@@ -1,0 +1,23 @@
+[{
+    "name": "Recent profiles", 
+    "separator": true
+}, {
+    "generator": "recent", 
+    "rows": 3
+}, {
+    "icon": "system/profiles", 
+    "name": "All Profiles", 
+    "submenu": "Profiles.menu"
+}, {
+    "name": "Options", 
+    "separator": true
+}, {
+    "icon": "system/autoswitch", 
+    "name": "Autoswitch Options", 
+    "submenu": ".autoswitch.menu"
+}, {
+    "action": "osd(turnoff())", 
+    "icon": "system/turn-off", 
+    "id": "item4", 
+    "name": "Turn Controller OFF"
+}]
