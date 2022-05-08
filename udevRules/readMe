@@ -1,0 +1,10 @@
+1. Make the rules files be owned by root:root
+                               user-^ group-^
+
+sudo chown root:root /path/to/rules/*.rules
+
+2. Have the file permissions be 644 (rw-r--r--)
+sudo chmod 644 /path/to/rules/*.rules
+
+3. Put the rules files in /etc/udev/rules.d/
+sudo mv /path/to/rules/*.rules /etc/udev/rules.d

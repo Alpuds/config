@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# This script changes the LED of a DualShock 4 controller to the specified color.
+# This should be ran with root privileges.
+
+# ds4led PATH COLOR
+# PATH is the path of the ds4's LED.
+# Ex: /sys/class/leds/0005:054C:09CC.0007:global
+
+# COLOR is the color in HEX without the '#' (e.g., 3a02e0 for blue-purple).
+
+RED=$((16#${2:0:2}))
+GREEN=$((16#${2:2:2}))
+BLUE=$((16#${2:4:2}))
+
+LED=$(echo "$1" | grep -Eo '[[:xdigit:]]{4}:[[:xdigit:]]{4}:[[:xdigit:]]{4}\.[[:xdigit:]]{4}')
+
+[[ -z "$LED" || ! -d "/sys/class/leds/$LED:global" ]] && exit
+
+echo 0 > /sys/class/leds/$LED:red/brightness
+echo 0 > /sys/class/leds/$LED:green/brightness
+echo 0 > /sys/class/leds/$LED:blue/brightness
+
+echo $RED > /sys/class/leds/$LED:red/brightness
+echo $GREEN > /sys/class/leds/$LED:green/brightness
+echo $BLUE > /sys/class/leds/$LED:blue/brightness

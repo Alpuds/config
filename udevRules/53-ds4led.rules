@@ -1,0 +1,12 @@
+# Set DualShock 4 LED color to orange
+
+# For a specefic controller (MAC address) do:
+# ATTRS{uniq}=="controller's MAC address"
+
+# For general ds4 matching do:
+# ATTRS{name}=="Wireless Controller"
+
+# '0f0500' can be replaced with a HEX color value without the '#'
+# (e.g., 3a02e0 for blue-purple).
+
+ACTION=="add", SUBSYSTEM=="input", ATTRS{name}=="Wireless Controller" RUN+="/home/alpuds/.local/bin/ds4led '%p' 0f0500"
