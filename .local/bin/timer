@@ -8,9 +8,13 @@ defaultSound='a media file' # Default media file that is played when the timer g
 colorBEGIN='\033[1;36m' # This makes the text be colored cyan and be bolded
 colorEND='\033[0m' # This makes the text following it be normal/plain
 
+presetFile="${XDG_DATA_HOME}/timer/presets.csv"
+
 helpMsg(){
     cat << END
 Usage: timer [OPTION] NUMBER[SUFFIX] MESSAGE [MESSAGE_BODY]
+       timer {-p PRESET} | {--preset=PRESET}
+       timer l | list
 Count down from NUMBER seconds and send a notification with MESSAGE as the title
 and MESSAGE_BODY as the body of the notification once the specified time (NUMBER[SUFFIX])
 has passed.
@@ -19,10 +23,15 @@ NUMBER must be an integer.
 SUFFIX is the unit of time. It can be 's' for seconds, 'm' for minutes, 'h' for hours or 'd' for days.
 If SUFFIX is omitted, NUMBER will be in seconds.
 
+Required arguments for long options are mandatory for short options too.
+
   -s, --sound[=FILE]        play a media file once time is up.
                               FILE is a media file to be played.
                               If FILE is omitted, a default file
                               will be used.
+  l, list                   list presets and their respective information.
+  -p, --preset=PRESET       use a preset where PRESET is the name of
+                              the preset to use.
   -h, --help                display this help text and exits the script
 END
 }
@@ -30,8 +39,20 @@ END
 abort_or_default(){
     echo "The file '$1' does not exist."
     echo "The default sound is '$defaultSound'"
-    read -r -p 'Use the default sound? [y/N] ' ans
+    read -r -p 'Use the default sound? [y/N] ' ans < /dev/tty
     [ "$ans" = y ] && return 0 || exit 0
+}
+
+soundCheckNSetter(){
+    if [ ! $1 = default ]; then
+        if [ -f $1 ]; then
+            doSound="mpv $1"
+        else
+            abort_or_default $1 && doSound="mpv $defaultSound"
+        fi
+    else
+        doSound="mpv $defaultSound"
+    fi
 }
 
 # Shows text on how to use timer if no arguments were passed in
@@ -43,39 +64,75 @@ abort_or_default(){
 case $1 in
     -s)
         if [ -f $2 ]; then
-            doSound="mpv $2" && time=$3; message=$4; messageBody=$5
+            doSound="mpv $2" && time=$3; messageTitle=$4; messageBody=$5
         else
             # Checks if the second argument is a valid time (e.g., 39m)
             # Since the amount of valid times is infnite, the regex only supports upto 4 "arguments" (e.g., 1d 2h 3m 4s)
             echo $2 | grep -qE '^[0-9]+[smhd]?\s*([0-9]+[smhd]?)?\s*([0-9]+[smhd]?)?\s*([0-9]+[smhd]?)?\s*$' && arg2=validTime
 
             if [ "$arg2" = validTime ]; then
-                doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
+                doSound="mpv $defaultSound"; time=$2; messageTitle=$3; messageBody=$4
             else
                 # If the second argument is not a file nor is it a valid time,
                 # then the user has a choice to abort or continue with the default sound.
-                abort_or_default $2 && doSound="mpv $defaultSound"; time=$3; message=$4; messageBody=$5
+                abort_or_default $2 && doSound="mpv $defaultSound"; time=$3; messageTitle=$4; messageBody=$5
             fi
         fi
         ;;
-    --sound) doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4;;
+    --sound) doSound="mpv $defaultSound"; time=$2; messageTitle=$3; messageBody=$4;;
     --sound=*)
         # Essentially, ${1#*=} deletes anything that ends with '='. In this instance, '--sound=' will be deleted,
         # leaving the characters after '=' to stay. Example: artoria=saber -> saber
         if [ -f ${1#*=} ]; then
             # If there is nothing after '=', then abort_or_default will execute.
             if [ $(echo $1 | wc -c) = 9 ]; then
-                abort_or_default && doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
+                abort_or_default && doSound="mpv $defaultSound"; time=$2; messageTitle=$3; messageBody=$4
             else
-                doSound="mpv ${1#*=}" time=$2; message=$3; messageBody=$4
+                doSound="mpv ${1#*=}" time=$2; messageTitle=$3; messageBody=$4
             fi
         else
-            abort_or_default ${1#*=} && doSound="mpv $defaultSound"; time=$2; message=$3; messageBody=$4
+            abort_or_default ${1#*=} && doSound="mpv $defaultSound"; time=$2; messageTitle=$3; messageBody=$4
         fi
         ;;
+    -p)
+        while IFS=, read -r name duration msgTitle msgBody sound; do
+            if [ ! $name = name ]; then
+                if [ $name = $2 ]; then
+                # Determine if $sound is a valid file, and if $sound=default,
+                # timer will use $defaultSound
+                soundCheckNSetter $sound
+                time=$duration; messageTitle=$msgTitle; messageBody=$msgBody
+                fi
+            fi
+        done < $presetFile
+        ;;
+    --preset=*)
+        while IFS=, read -r name duration msgTitle msgBody sound; do
+            if [ ! $name = name ]; then
+                if [ $name = ${1#*=} ]; then
+                    soundCheckNSetter $sound
+                    time=$duration; messageTitle=$msgTitle; messageBody=$msgBody
+                fi
+            fi
+        done < $presetFile
+        ;;
+    l | list)
+        while IFS=, read -r name time msgTitle msgBody sound; do
+            if [ ! $name = name ]; then
+cat << END
+${name}:
+    Time:           $time
+    Message title:  $msgTitle
+    Message body:   $msgBody
+    sound:          $sound
+END
+            fi
+        done < $presetFile
+        exit
+        ;;
     -h | --help) helpMsg ; exit;;
-    *) time=$1; message=$2; messageBody=$3;;
+    *) time=$1; messageTitle=$2; messageBody=$3;;
 esac
 
 # The timer itself
-sleep $time | pv && notify-send "$message" "$messageBody" ; echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND"; $doSound
+sleep $time | pv && notify-send "$messageTitle" "$messageBody" ; echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND"; $doSound
