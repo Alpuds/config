@@ -96,23 +96,19 @@ case $1 in
         ;;
     -p)
         while IFS=, read -r name duration msgTitle msgBody sound; do
-            if [ ! $name = name ]; then
-                if [ $name = $2 ]; then
-                # Determine if $sound is a valid file, and if $sound=default,
-                # timer will use $defaultSound
-                soundCheckNSetter $sound
-                time=$duration; messageTitle=$msgTitle; messageBody=$msgBody
-                fi
+            if [ $name = $2 ]; then
+            # Determine if $sound is a valid file, and if $sound=default,
+            # timer will use $defaultSound
+            soundCheckNSetter $sound
+            time=$duration; messageTitle=$msgTitle; messageBody=$msgBody
             fi
         done < $presetFile
         ;;
     --preset=*)
         while IFS=, read -r name duration msgTitle msgBody sound; do
-            if [ ! $name = name ]; then
-                if [ $name = ${1#*=} ]; then
-                    soundCheckNSetter $sound
-                    time=$duration; messageTitle=$msgTitle; messageBody=$msgBody
-                fi
+            if [ $name = ${1#*=} ]; then
+                soundCheckNSetter $sound
+                time=$duration; messageTitle=$msgTitle; messageBody=$msgBody
             fi
         done < $presetFile
         ;;
