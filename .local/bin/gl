@@ -7,14 +7,16 @@ helpMsg(){
 Usage: gl [OPTION...]
 OPTION:
 The argument for the long form of an option has to be used for the short form as well
-(e.g., --run=mbaacc would be -r mbaacc.).
+(e.g., --run=windows would be -r windows.).
 
--l --list
+-l, --list
      List games that are available.
--r --run=TYPE LABEL
+-r, --run=TYPE LABEL
      Run the game that LABEL is assigned to. TYPE is the type of game that the
      program should handle it as. For Windows games, substitute TYPE with "w" or
      "windows". For native games, substitute TYPE with "n" or "native".
+-h, --help
+     Shows this help text and exits.
 
 The format that games are listed is this:
 [TYPE], [LABEL]: [game]
@@ -23,8 +25,10 @@ w, mbaacc: Melty Blood Actress Again Current Code
 END
 }
 
+[ $# = 0 ] && echo -e "Usage: gl [OPTION...]\nTry 'gl --help' for more information." && exit 1
+
 checkError(){
-    [ $? -eq 1 ] && echo 'An error occurred.' && exit 1
+    [ $? -eq 1 ] && echo "gl: An error occurred." && exit 1
 }
 
 listGames(){
@@ -34,8 +38,8 @@ listGames(){
 }
 
 runWindowsGame(){
-    while IFS=, read -r type game label path bin; do
-        [ $label = $1 ] && cd $path && wine $bin
+    while IFS=, read -r type game label path prefix bin; do
+        [ $label = $1 ] && cd $path && WINEPREFIX=$prefix wine $bin
     done < $gameList
 }
 
@@ -73,7 +77,8 @@ case $1 in
             exit 1
         fi
         ;;
-    *)
-        helpMsg
-        ;;
+    -h | --help)
+        helpMsg;;
+        *) echo "Usage: gl [OPTION...]\nTry 'gl --help' for more information."
+;;
 esac
