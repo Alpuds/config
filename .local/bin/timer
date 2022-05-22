@@ -19,7 +19,7 @@ Count down from NUMBER seconds and send a notification with MESSAGE as the title
 and MESSAGE_BODY as the body of the notification once the specified time (NUMBER[SUFFIX])
 has passed.
 
-NUMBER must be an integer.
+NUMBER can be an integer or a decimal (e.g., 4, 0.3).
 SUFFIX is the unit of time. It can be 's' for seconds, 'm' for minutes, 'h' for hours or 'd' for days.
 If SUFFIX is omitted, NUMBER will be in seconds.
 
