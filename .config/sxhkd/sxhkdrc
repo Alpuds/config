@@ -1,0 +1,164 @@
+#==== Scripts + misc ====#
+# Power
+super + shift + q
+	sysact
+
+# Power button
+XF86PowerOff
+	sysact
+
+# Mount drives
+super + F9
+	dmenumount
+
+# Select displays
+super + F3
+	displayselect
+
+# Keyboard remapping
+super + F12
+	remaps & notify-send '⌨️ Keyboard remapping...' 'Re-running keyboard defaults for any newly plugged-in keyboards.'
+
+# Screenshot
+Print
+	maimpick
+
+alt + Print
+	maim pic-full-$(date '+%y%m%d-%H%M-%S').png
+
+# Emoji selector
+super + grave
+	dmenuunicode
+
+# Panic button
+super + alt + space
+	sleep 0.2 ; xdotool key super+6 ; thunderbird
+
+#==== Programs ====#
+# Terminal
+super + Return
+	$TERMINAL
+
+# Web browser
+super + b
+	brave
+
+# Incognito and Firefox
+super + c ; {a, s, h}
+	{brave --incognito, firefox --private-window, firefox}
+
+# Wifi and notes
+super + {_, shift} + w
+	$TERMINAL -e {nvim -c VimwikiIndex, sudo nmtui}
+
+# Mail
+super + alt + v
+	$TERMINAL -e neomutt ; pkill -RTMIN+12 dwmblocks; rmdir ~/.abook
+
+super + k
+	thunderbird
+
+# Address book
+super + alt + e
+	$TERMINAL -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook
+
+# Program launcher and password manager
+super + {_, shift} + d
+	{dmenu_run, passmenu}
+
+# RSS reader
+super + alt + n
+	$TERMINAL -e newsboat; pkill -RTMIN+6 dwmblocks
+
+# Calculator
+super + alt + c
+	qalculate-qt
+
+XF86Calculator
+	qalculate-qt
+
+# Music player or mute
+super + {_, shift} + m
+	{$TERMINAL -e ncmpcpp, pamixer -t; kill -44 $(pidof dwmblocks)}
+
+# Toggle Screenkey on or off
+super + Scroll_Lock
+	killall screenkey || screenkey &
+
+# File and process manager
+super + {_, shift} + r
+	$TERMINAL -e {lf, htop}
+
+# Backlight
+XF86MonBrightness{Up, Down}
+	xbacklight -{inc, dec} 15
+
+#==== Signals ====#
+# Toggle Redshift on or off
+super + alt + s
+	killall -USR1 redshift
+
+# Reload sxhkd config
+super + alt + ctrl + c
+	killall -USR1 sxhkd
+
+#===== Media Controls ====#
+# Decrease volume
+super + {_, shift} + minus
+	pamixer --allow-boost -d {5,15}; kill -44 $(pidof dwmblocks)
+
+# Increase volume
+super + {_, shift} + equal
+	pamixer --allow-boost -i {5,15}; kill -44 $(pidof dwmblocks)
+
+# Audio mixer
+super + F4
+	$TERMINAL -e pulsemixer; kill -44 $(pidof dwmblocks)
+
+# Pause music
+super + {_, shift} + p
+	mpc {toggle, pause; pauseallmpv}
+
+# Seek backward
+super + {_, shift} + bracketleft
+	mpc seek -{10, 60}
+
+# Seek forward
+super + {_, shift} + bracketright
+	mpc seek +{10, 60}
+
+# Play previous song or play at the beginning of the song
+super + {_, shift} + comma
+	mpc {prev, seek 0%}
+
+# Play next song or repeat song
+super + {_, shift} + period
+	mpc {next, repeat}
+
+#---- Media Buttons ----#
+XF86AudioMute
+	pamixer -t; kill -44 $(pidof dwmblocks)
+
+XF86AudioRaiseVolume
+	pamixer --allow-boost -i 3; kill -44 $(pidof dwmblocks)
+
+XF86AudioLowerVolume
+	pamixer --allow-boost -d 3; kill -44 $(pidof dwmblocks)
+
+XF86Audio{Prev,Next}
+	mpc {prev, next}
+
+XF86Audio{Pause, Play}
+	mpc {pause, play}
+
+XF86AudioStop
+	mpc stop
+
+XF86Audio{Rewind, Forward}
+	mpc seek {-10, +10}
+
+XF86AudioMedia
+	$TERMINAL -e ncmpcpp
+
+XF86AudioMicMute
+	pactl set-source-mute @DEFAULT_SOURCE@ toggle
