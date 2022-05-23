@@ -5,6 +5,7 @@
 ,libertinus-font,"provides fonts based on Linux Libertine/Biolinum, with extended math support."
 A,lf-git,"is an extensive terminal file manager that everyone likes."
 ,bc,"is used for a dropdown calculator."
+,sxhkd,"is a simple X hotkey daemon."
 ,xcompmgr,"is for transparency and removing screen-tearing."
 ,xorg-xprop,"is a tool for detecting window properties."
 ,arandr,"allows the user to customize monitor arrangements."
