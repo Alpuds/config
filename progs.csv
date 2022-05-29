@@ -70,8 +70,6 @@ A,betterlockscreen,"allows you to lock your computer, and quickly unlock with yo
 ,moreutils,"is a collection of useful unix tools."
 ,noto-fonts-cjk,"provides sans and serif fonts for Japanese, Chinese, and Korean."
 ,cronie,"is a time-based task scheduler."
-A,cyrus-sasl-xoauth2-git,"is a program that makes mbsync work with oauth2."
-A,oauth2token,"is a program that manages oauth2 tokens"
 ,fcitx,"is an engine for IME."
 ,fcitx-configtool,"is a configuration tool for fcitx."
 ,fcitx-mozc,"is a program that provides an IME for Japanese."
