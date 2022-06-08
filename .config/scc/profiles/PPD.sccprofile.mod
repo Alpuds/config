@@ -39,7 +39,7 @@
         "action": "feedback(LEFT, 4096, 16.0, dpad(button(Keys.KEY_J), button(Keys.KEY_L), button(Keys.KEY_K), button(Keys.KEY_SEMICOLON)))"
     }, 
     "pad_right": {
-        "action": "feedback(RIGHT, 256, dpad(None, None, button(Keys.KEY_C), button(Keys.BTN_TR)))"
+        "action": "feedback(RIGHT, 256, dpad(button(Keys.KEY_A), button(Keys.KEY_D), button(Keys.KEY_S), button(Keys.KEY_F)))"
     }, 
     "stick": {
         "action": "dpad(None, None, button(Keys.BTN_TL), button(Keys.KEY_SEMICOLON))"
