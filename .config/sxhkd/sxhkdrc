@@ -95,7 +95,7 @@ XF86MonBrightness{Up, Down}
 
 #==== Signals ====#
 # Toggle Redshift on or off
-super + alt + s
+super + alt + r
 	killall -USR1 redshift
 
 # Reload sxhkd config
