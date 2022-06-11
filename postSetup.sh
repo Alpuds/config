@@ -17,18 +17,28 @@ colorEND='\033[0m' # Makes the text be regular
 # Reminder flags
 remindGPU=false
 
-header(){
+heading(){
     echo "${boldCyanTxt}${1}$colorEND"
 }
 
-header "Copying oAuth tools"
+heading "Copying oAuth tools"
 cp -r ./oAuth2Tools ${HOME}/.local/share
 
-header "Xorg GPU config"
+heading "Installing wallpapers"
+cp ./.local/share/wallpapers.tar ${HOME}/.local/share
+cd ${HOME}/.local/share
+tar -xvf ${HOME}/.local/share/wallpapers.tar
+rm ${HOME}/.local/share/wallpapers.tar
+cd $OLDPWD
+ln -sf ${HOME}/.local/share/wallpapers/landscapes/forestWaterFall.jpg ${HOME}/.local/share/bg
+heading "Setting wallpaper"
+setbg
+
+heading "Xorg GPU config"
 read -p 'Make an AMD GPU Xorg config? [y/N]: ' ans
 if [ $ans = 'y' ]; then
-    header "Making an AMD GPU config"
-    sudo tee /etc/X11/xorg.conf.d/20-amdgpu.conf << END 1>/dev/null
+    heading "Making an AMD GPU config"
+    sudo tee /etc/X11/xorg.conf.d/20-amdgpu.conf << END >/dev/null
 Section "Device"
      Identifier "AMD"
      Driver "amdgpu"
@@ -37,24 +47,25 @@ EndSection
 END
 unset remindGPU
 else
-    header "Skipping Xorg GPU config."
+    heading "Skipping Xorg GPU config."
     remindGPU=true
 fi
 
-header "Copying udev rules"
+heading "Copying udev rules"
 sudo cp ./udevRules/*.rules /etc/udev/rules.d
 
-header "Reloading udev rules"
+heading "Reloading udev rules"
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 
-header "Copying Pacman hooks"
+heading "Copying Pacman hooks"
 sudo cp ./pacmanHooks/*.hook /usr/share/libalpm/hooks
 
-header "Copying SystemD services"
+heading "Copying SystemD services"
 sudo cp ./systemdServices/*.service /etc/systemd/system
 
-header "Enabling betterlockscreen serivce"
+heading "Setting up betterlockscreen"
+betterlockscreen -u ${HOME}/.local/share/wallpapers/landscapes/forestBridgeFall.jpg
 echo "${boldYellowTxt}In ${boldCyanTxt}10 seconds${boldYellowTxt}, the lockscreen will activate.$colorEND"
 sleep 10 | pv
 sudo systemctl enable --now betterlockscreen@${USER}.service
@@ -69,4 +80,4 @@ the client credentials and tokens.
 
 END
 [ $remindGPU = true ] && echo '- Look into configuring the GPU(s) of the computer.\n'
-header "The post script finished."
+heading "The post script finished."
