@@ -4,6 +4,11 @@
 # Combine video and audio files along with adding a delay to the audio stream
 # so it is synced with the video.
 
+input=$1
+offset=$2
+audio=$3
+output=$4
+
 helpMsg(){
     cat << END
 Usage: comVA VIDEO OFFSET AUDIO OUTPUT
@@ -20,3 +25,8 @@ END
 # -map 1:0 will take the second input file's (audio file)
 # stream be the second stream of the output.
 [ $# = 0 ] && helpMsg || ffmpeg -i $1 -itsoffset $2 -i $3 -c copy -map 0:0 -map 1:0 $4
+case $1 in
+    --help) helpMsg ; exit 0 ;;
+    '') echo "Usage: comVA VIDEO OFFSET AUDIO OUTPUT\nTry 'comVA --help' for more information." ;;
+    *) ffmpeg -i $input -itsoffset $offset -i $audio -c copy -map 0:0 -map 1:0 $output ;;
+esac

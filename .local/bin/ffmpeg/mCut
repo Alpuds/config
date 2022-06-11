@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# This script makes a clip from a video.
+# The clip starts at a position and ends in either
+# the form of a duration or another position.
+# To visualize, the pipes (|) is the clip and the dashes (-)
+# is the source video.
+# ----||||||||||||||-------
+# The clip's duration can be overshot to write
+# the remainder of the source video.
+# Visualization:
+# --------|||||||
+
+# The variables are set to argument positions, as if no options were put in.
+# -to makes ffmpeg stop writing to the output file at the spceified timestamp.
+duration=-to
+start=$1
+end=$2
+input=$3
+output=$4
+
+helpMsg(){
+    cat << END
+Usage: mCut START [OPTION] END VIDEO OUTPUT
+Make a clip that starts at START
+and end at END of VIDEO.
+
+START and END are timestamps of VIDEO.
+VIDEO is the video to make a clip from.
+OUTPUT is the name of the clip.
+
+See ffmpeg-utils manual page
+for valid time duration formats for START and END.
+
+  -d, --duration=END        Makes the clip last for END.
+                              END is how much time to write to
+                              OUTPUT (e.g., 3 minutes).
+  -h, --help                Shows this help text and exits.
+
+Examples
+Make a clip that starts at the
+first 30 seconds of a video and
+ends at 04:00 into the video:
+mCut 30 04:00 input.mp4 output.mp4
+
+Make a clip that starts at 1:00 of
+the video and ends in 5 minutes:
+mCut 01:00 -d 05:00 input.mp4 output.mp4
+END
+}
+
+# -t makes ffmpeg write DURATION (e.g., 15 seconds) of the video
+# be the output. Without -ss, writing will start at the beginning
+# of the video.
+
+# -ss sets the position at which ffmpeg
+# will start writing to the output file.
+case $1 in
+    -h | --help) helpMsg ; exit 0 ;;
+    '') echo "Usage: mCut START [OPTION] END VIDEO OUTPUT\nTry 'mCut --help' for more information." ; exit 1;;
+esac
+
+case $2 in
+    -d)
+        duration=-t
+        end=$3
+        input=$4
+        output=$5 ;;
+    --duration=*)
+        duration=-t
+        end=${1#=}
+        input=$3
+        output=$4 ;;
+esac
+
+ffmpeg -i $input -ss $start $duration $end -c copy $output

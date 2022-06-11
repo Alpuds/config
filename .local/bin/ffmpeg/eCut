@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# This script makes a clip that has its duration
+# be relative to the end of the source video.
+# To visualize, the pipes (|) is the clip and the dashes (-)
+# is the source video.
+# --------|||||||
+
+duration=$1
+input=$2
+output=$3
+
+helpMsg(){
+    cat << END
+Usage: eCut DURATION VIDEO OUTPUT
+Make a clip that is DURATION from the end of VIDEO.
+
+DURATION must be a negative number.
+
+See ffmpeg-utils manual page for valid time duration formats for DURATION.
+
+ffmpeg will encode the video which will significantly increase
+the time on making the clip compared to copying the streams (-c copy).
+
+  -h, --help                Shows this help text and exits.
+
+Examples:
+Make a clip that
+is the last 15 seconds of a video:
+eCut -15 input.mp4 output.mp4
+
+Last 5 minutes:
+eCut -05:00 input.mp4 output.mp4
+END
+}
+
+# -sseof makes ffmpeg write DURATION (e.g., 15 seconds) from
+# the end of video be the output.
+case $1 in
+    -h | --help) helpMsg ; exit 0 ;;
+    '') echo "Usage: eCut DURATION VIDEO OUTPUT\nTry 'eCut --help' for more information." ; exit 1;;
+    *) ffmpeg -sseof $duration -i $input $output ;;
+esac

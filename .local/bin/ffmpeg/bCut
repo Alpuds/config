@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# This script makes a clip from the beginning of a video.
+# To visualize, the pipes (|) is the clip and the dashes (-)
+# is the source video.
+# |||||||||------------
+
+duration=$1
+input=$2
+output=$3
+
+helpMsg(){
+    cat << END
+Usage: bCut DURATION VIDEO OUTPUT
+Make a clip that is DURATION into VIDEO.
+
+See ffmpeg-utils manual page for valid time duration formats for DURATION.
+
+  -h, --help                Shows this help text and exits.
+
+Examples:
+Make a clip that
+is the first 15 seconds of a video:
+bCut 15 input.mp4 output.mp4
+
+First 5 minutes:
+bCut 05:00 input.mp4 output.mp4
+END
+}
+
+# -t makes ffmpeg write DURATION (e.g., 15 seconds) of the video
+# be the output. Without -ss, writing will start at the beginning
+# of the video.
+case $1 in
+    -h | --help) helpMsg ; exit 0 ;;
+    '') echo "Usage: bCut DURATION VIDEO OUTPUT\nTry 'bCut --help' for more information." ; exit 1;;
+    *) ffmpeg -i $input -t $duration -c copy $output ;;
+esac
