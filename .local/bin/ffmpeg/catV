@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# This script concatenates videos.
+# The videos should have the same
+# video and audio encoding before using this script.
+
+videos=$1
+output=$2
+
+helpMsg(){
+    cat << END
+Usage: catV VIDEOS OUTPUT
+Concatenate videos together. The videos being
+concatenated should have their video and audio encoding
+be the same before using this script,
+or else the end result may not be right.
+
+VIDEOS should be a file with the following syntax:
+
+file 'VIDEO'
+
+VIDEO is the video file and each video should
+have its own line.
+
+Example:
+file 'vid-1.mp4'
+file 'vid-2.mp4'
+file 'vid-3.mp4'
+
+OUTPUT is the file name for the end result.
+END
+}
+
+case $1 in
+    -h | --help) helpMsg ; exit 0 ;;
+    '') echo "Usage: catV VIDEOS OUTPUT\nTry 'catV --help' for more information." ;;
+    *) ffmpeg -f concat -i $videos -c copy $output ;;
+esac
