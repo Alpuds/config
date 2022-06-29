@@ -16,6 +16,8 @@ Combine video and audio files with the audio stream
 being delayed by OFFSET. OFFSET is the time duration that
 the audio stream will be delayed before playing.
 
+  -h, --help                Shows this help text and exits.
+
 See ffmpeg-utils manual page for valid time duration format for OFFSET.
 END
 }
@@ -24,9 +26,8 @@ END
 # the output's first stream.
 # -map 1:0 will take the second input file's (audio file)
 # stream be the second stream of the output.
-[ $# = 0 ] && helpMsg || ffmpeg -i $1 -itsoffset $2 -i $3 -c copy -map 0:0 -map 1:0 $4
 case $1 in
-    --help) helpMsg ; exit 0 ;;
+    -h | --help) helpMsg ; exit 0 ;;
     '') echo "Usage: comVA VIDEO OFFSET AUDIO OUTPUT\nTry 'comVA --help' for more information." ;;
     *) ffmpeg -i $input -itsoffset $offset -i $audio -c copy -map 0:0 -map 1:0 $output ;;
 esac
