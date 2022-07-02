@@ -25,12 +25,10 @@ heading "Copying oAuth tools"
 cp -r ./oAuth2Tools ${HOME}/.local/share
 
 heading "Installing wallpapers"
-cp ./.local/share/wallpapers.tar ${HOME}/.local/share
 cd ${HOME}/.local/share
 tar -xvf ${HOME}/.local/share/wallpapers.tar
 rm ${HOME}/.local/share/wallpapers.tar
-cd $OLDPWD
-ln -sf ${HOME}/.local/share/wallpapers/landscapes/forestWaterFall.jpg ${HOME}/.local/share/bg
+ln -sf ${HOME}/.local/share/wallpapers/landscapes/forestWaterFall.jpg bg
 heading "Setting wallpaper"
 setbg
 
