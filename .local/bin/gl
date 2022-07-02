@@ -51,8 +51,7 @@ runNativeGame(){
 
 case $1 in
     -l | --list)
-        listGames
-        ;;
+        listGames ;;
     -r)
         if [[ $2 == 'w' || $2 == 'windows' ]]; then
             runWindowsGame $3
@@ -78,7 +77,7 @@ case $1 in
         fi
         ;;
     -h | --help)
-        helpMsg;;
-        *) echo "Usage: gl [OPTION...]\nTry 'gl --help' for more information."
+        helpMsg ;;
+    *) echo -e "Usage: gl [OPTION...]\nTry 'gl --help' for more information."
 ;;
 esac
