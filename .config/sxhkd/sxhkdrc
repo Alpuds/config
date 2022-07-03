@@ -115,9 +115,9 @@ super + {_, shift} + equal
 super + F4
 	$TERMINAL -e pulsemixer; kill -44 $(pidof dwmblocks)
 
-# Pause music
-super + {_, shift} + p
-	mpc {toggle, pause; pauseallmpv}
+# Pause or stop music
+super + {_, shift, ctrl} + p
+	mpc {toggle, pause; pauseallmpv, stop}
 
 # Seek backward
 super + {_, shift} + bracketleft
