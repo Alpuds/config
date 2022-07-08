@@ -70,32 +70,33 @@ scrolling:
 font:
   normal:
     family: monospace
-    style: Medium
-  #bold:
-    #family: JetBrains Mono
-    #style:
+    style: Regular
+
+  bold:
+    family: monospace
+    style: Bold
 
   # Italic font face
-  #italic:
+  italic:
     # Font family
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
+    family: Noto Sans
 
     # The `style` can be specified to pick a specific face.
-    #style: Italic
+    style: Italic
 
   # Bold italic font face
-  #bold_italic:
+  bold_italic:
     # Font family
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
+    family: Noto Sans
 
     # The `style` can be specified to pick a specific face.
-    #style: Bold Italic
+    style: Display Bold Italic
 
   # Point size
   size: 12
@@ -103,7 +104,7 @@ font:
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
-    x: -1
+    x: 0
     y: -1
 
   # Glyph offset determines the locations of the glyphs within their cells with
