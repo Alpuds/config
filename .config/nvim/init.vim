@@ -59,8 +59,7 @@ call plug#end()
 source ~/.config/nvim/themes/gruvbox.vim
 " Coding:
     " Auto-completion:
-        set completeopt=menu,menuone,noselect
-        source ~/.config/nvim/tools/nvim_cmp.lua
+    source ~/.config/nvim/tools/nvim_cmp.lua
     " Tree-Sitter
     source ~/.config/nvim/tools/tree_sitter.vim
     " LSP
