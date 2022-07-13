@@ -22,7 +22,7 @@ alias \
 	ll="ls -l" \
 	la="ls -a" \
 	clr="clear" \
-	yt="youtube-dl --add-metadata -i" \
+	yt="yt-dlp --embed-metadata -i" \
 	yta="yt -x -f bestaudio/best" \
 	nb="newsboat" \
 	ffmpeg="ffmpeg -hide_banner"
