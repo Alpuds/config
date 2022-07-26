@@ -1,0 +1,30 @@
+#!/usr/bin/xdotool
+
+# craftItem crafts items in bulk. Basically holding shift
+# to craft an item with all materials.
+
+# craftItem ITEM
+# ITEM is the exact name of the item to craft.
+# For example, to craft a block of iron, put
+# 'block of iron' rather than 'iron block'.
+# This will make it so the only craftable item that
+# matches the name is one item.
+
+# Warning: The script does not work with items that
+# are in a group, e.g., wood variants of doors like
+# spruce, oak, birch, etc.
+
+search --name 'Minecraft'
+
+mousemove --window %1 150 135 # mouse over to search bar
+click --window %1 1
+type --window %1 $1
+mousemove --window %1 145 165 # mouse over to item
+# shift click item
+sleep 0.1
+keydown --window %1 shift click 1 keyup shift
+mousemove --window %1 650 185
+keydown --window %1 shift click 1 keyup shift
+mousemove --window %1 150 135 # mouse over to search bar
+click --window %1 1
+key --window %1 BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace BackSpace
