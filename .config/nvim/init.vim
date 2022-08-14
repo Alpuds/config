@@ -104,6 +104,8 @@ set termguicolors
     set shiftwidth=4
 	set expandtab
 	set number relativenumber
+    set ignorecase
+    set smartcase
     set scrolloff=7
 	set noswapfile
     set hidden
