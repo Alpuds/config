@@ -40,7 +40,7 @@ cmp.setup {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<c-y>"] = cmp.mapping(
+    ["<c-u>"] = cmp.mapping(
       cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Insert,
         select = true,
@@ -105,7 +105,7 @@ cmp.setup {
   sources = {
     { name = "nvim_lsp" },
     { name = "path" },
-    { name = "ultisnips" },
+    { name = "luasnip" },
     { name = "buffer", keyword_length = 5 },
   },
 
@@ -140,7 +140,7 @@ cmp.setup {
   -- Youtube: mention that you need a separate snippets plugin
   snippet = {
     expand = function(args)
-        vim.fn["UltiSnips#Anon"](args.body)
+        require('luasnip').lsp_expand(args.body)
     end,
   },
 

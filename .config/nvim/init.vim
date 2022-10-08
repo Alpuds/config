@@ -22,7 +22,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'SirVer/ultisnips'
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v<CurrentMajor>.*'}
 Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/fern.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -33,7 +33,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'onsails/lspkind-nvim'
 
 " Plugin for LaTeX
@@ -63,15 +63,17 @@ source ~/.config/nvim/themes/gruvbox.vim
     " Tree-Sitter
     source ~/.config/nvim/tools/tree_sitter.vim
     " LSP
-    source ~/.config/nvim/tools/python_lsp.lua
+    source ~/.config/nvim/tools/lsp/python_lsp.lua
+    source ~/.config/nvim/tools/lsp/lsp_config.vim
+    source ~/.config/nvim/tools/lsp/texlab-lsp.lua
     " Renamer
     source ~/.config/nvim/tools/renamer.lua
     " Telescope
     source ~/.config/nvim/tools/telescope.lua
     " Fern (tree viewer)
     source ~/.config/nvim/tools/fern.vim
-    " UltiSnips
-    source ~/.config/nvim/tools/ultisnips.vim
+    " LuaSnips
+    source ~/.config/nvim/tools/luasnip.lua
 
 " Notes/prose:
     source ~/.config/nvim/tools/vimwiki.vim
