@@ -63,7 +63,7 @@ source ~/.config/nvim/themes/gruvbox.vim
     " Tree-Sitter
     source ~/.config/nvim/tools/tree_sitter.vim
     " LSP
-    source ~/.config/nvim/tools/lsp/python_lsp.lua
+    source ~/.config/nvim/tools/lsp/python-lsp.lua
     source ~/.config/nvim/tools/lsp/lsp_config.vim
     source ~/.config/nvim/tools/lsp/texlab-lsp.lua
     " Renamer
