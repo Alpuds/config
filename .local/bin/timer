@@ -4,6 +4,11 @@
 # and then sends a desktop notification with its chosen content.
 # It also prints the time when the timer went off.
 
+# Dependencies:
+# libnotify
+# mpv
+# pv
+
 defaultSound='a media file' # Default media file that is played when the timer goes off
 colorBEGIN='\033[1;36m' # This makes the text be colored cyan and be bolded
 colorEND='\033[0m' # This makes the text following it be normal/plain
