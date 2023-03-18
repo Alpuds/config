@@ -13,7 +13,8 @@ RED=$((16#${2:0:2}))
 GREEN=$((16#${2:2:2}))
 BLUE=$((16#${2:4:2}))
 
-LED=$(echo "$1" | grep -Eo '[[:xdigit:]]{4}:[[:xdigit:]]{4}:[[:xdigit:]]{4}\.[[:xdigit:]]{4}')
+LED=$(echo "$1" | grep -Eo 'input[[:digit:]]+')
+# LED=$(echo "$1" | grep -Eo '[[:xdigit:]]{4}:[[:xdigit:]]{4}:[[:xdigit:]]{4}\.[[:xdigit:]]{4}')
 
 [[ -z "$LED" || ! -d "/sys/class/leds/$LED:global" ]] && exit
 
