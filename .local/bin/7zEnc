@@ -1,22 +1,79 @@
 #!/bin/sh
 
+# This script makes creating encrypted 7z archives easier as one does not need
+# to remember all of the option names to make a secure archive.
+
 helpMsg(){
 cat << END
-Usage: 7zEnc ARCHIVE SOURCE
+Usage: 7zEnc [OPTION] ARCHIVE SOURCE
 Make an encrypted 7z archive with a password as well as mx=9 (ultra) compression.
+The compression method used is lzma2. Optionally, the script can make a multipart archive.
 
-The compression method used is lzma2.
+ARCHIVE is the name of the archive.
+SOURCE is the file/directory to make an archive from.
+
+Required arguments for long options are mandatory for short options too.
+
+  -v, --volume=SIZE[b|k|m|g]  Specify the SIZE for each part of the split archive.
+                              SIZE is a number that can optionally be suffixed with b, k, m, or g
+                              for bytes, kilobytes, megabytes, and gigabytes respectively.
+                              Without a suffix, SIZE is in bytes.
+
+  -h, --help                  display this help text and exit the script
+
+Examples:
+Make an encrypted archive.
+7zEnc archive.7z archive
+
+Make an encrypted multipart archive where each part is 500 megabytes.
+7zEnc -v 500m archive.7z archive
 END
 }
 
-if [ $# -eq 0 ]; then
-    helpMsg
-else
-    archive="$1"
-    source="$2"
+# Shows text on how to use 7zEnc if no arguments were passed in
+[ $# = 0 ] && echo "Usage: 7zEnc [OPTION] ARCHIVE SOURCE\nTry '7zEnc --help' for more information." && exit 1
 
-    7zz a \
-      -t7z -m0=lzma2 -mx=9 -mfb=64 \
-      -md=32m -ms=on -mhe=on -p \
-       "$archive" "$source"
-fi
+case $1 in
+    -v)
+        volume="$2"
+        archive="$3"
+        source="$4"
+
+        echo "$volume" | grep -qE '^[[:digit:]]+[bkmg]?$' && validVolume=true
+
+        if [ "$validVolume" = true ]; then
+            # Make the value of volume be an argument for 7z
+            volume=-v$volume
+        else
+            echo "'${volume}' is not a valid volume.\nTry '7zEnc --help' for more information."
+            exit 1
+        fi
+        ;;
+    --volume=*)
+        # Essentially, ${1#*=} deletes anything that ends with '='. In this instance, '--volume=' will be deleted,
+        # leaving the characters after '=' to stay. Example: saber=artoria -> artoria
+        volume=${1#*=}
+        archive="$2"
+        source="$3"
+
+        echo "$volume" | grep -qE '^[[:digit:]]+[bkmg]?$' && validVolume=true
+
+        if [ "$validVolume" = true ]; then
+            volume=-v$volume
+        else
+            echo "'${volume}' is not a valid volume.\nTry '7zEnc --help' for more information. "
+            exit 1
+        fi
+        ;;
+    -h | --help) helpMsg ; exit 0 ;;
+    *)
+        archive="$1"
+        source="$2"
+        ;;
+esac
+
+7zz a \
+-t7z -m0=lzma2 -mx=9 -mfb=64 \
+-md=32m -ms=on -mhe=on -p \
+$volume \
+"$archive" "$source"
