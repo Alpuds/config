@@ -48,16 +48,16 @@ end
 
 local function set_background(content)
     vim.fn.system(
-        "dconf write /org/mate/desktop/background/picture-filename \"'"
-            .. content
-            .. "'\""
+    "dconf write /org/mate/desktop/background/picture-filename \"'"
+    .. content
+    .. "'\""
     )
 end
 
 local function select_background(prompt_bufnr, map)
     local function set_the_background(close)
         local content = require("telescope.actions.state").get_selected_entry(
-            prompt_bufnr
+        prompt_bufnr
         )
         set_background(content.cwd .. "/" .. content.value)
         if close then
@@ -93,7 +93,7 @@ end
 
 local function refactor(prompt_bufnr)
     local content = require("telescope.actions.state").get_selected_entry(
-        prompt_bufnr
+    prompt_bufnr
     )
     require("telescope.actions").close(prompt_bufnr)
     require("refactoring").refactor(content.value)
@@ -131,8 +131,8 @@ M.dev = function(opts)
     print("HEY BAE", opts.cwd)
 
     local possible_files = vim.api.nvim_get_runtime_file(
-        "/lua/**/dev.lua",
-        true
+    "/lua/**/dev.lua",
+    true
     )
     local local_files = {}
     for _, raw_f in ipairs(possible_files) do
@@ -204,18 +204,18 @@ M.dev = function(opts)
                 vim.schedule(function()
                     -- vim.cmd(string.format([[normal!]], entry.value.text))
                     vim.api.nvim_feedkeys(
-                        vim.api.nvim_replace_termcodes(
-                            string.format(
-                                "<esc>:lua require('%s').%s()",
-                                mod_name,
-                                entry.value.text
-                            ),
-                            true,
-                            false,
-                            true
-                        ),
-                        "n",
-                        true
+                    vim.api.nvim_replace_termcodes(
+                    string.format(
+                    "<esc>:lua require('%s').%s()",
+                    mod_name,
+                    entry.value.text
+                    ),
+                    true,
+                    false,
+                    true
+                    ),
+                    "n",
+                    true
                     )
                 end)
             end)

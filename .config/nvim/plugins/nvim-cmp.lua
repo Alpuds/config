@@ -3,6 +3,8 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 local lspkind = require "lspkind"
 lspkind.init({
+    mode = 'symbol_text'
+    --[[ Uncomment to replace symbols with '|'
     symbol_map = {
         Text = "|",
         Method = "|",
@@ -29,6 +31,7 @@ lspkind.init({
         Operator = "|",
         TypeParameter = ""
     }
+    ]]
 })
 
 local cmp = require "cmp"

@@ -22,7 +22,7 @@ ls.config.set_config {
             }
         }
     }
-    }
+}
 
 -- This will expand the current item or jump to the next item within the snippet.
 vim.keymap.set({ "i", "s" }, "<c-l>", function()
