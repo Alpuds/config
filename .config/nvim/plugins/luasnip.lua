@@ -45,4 +45,4 @@ vim.keymap.set("i", "<a-c>", function()
     end
 end)
 
-require("luasnip.loaders.from_snipmate").load({ paths = { "./tools/snippets" } })
+require("luasnip.loaders.from_snipmate").load({ paths = { "./plugins/snippets" } })
