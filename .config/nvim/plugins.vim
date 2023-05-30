@@ -45,6 +45,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ap/vim-css-color'
 Plug 'kovetskiy/sxhkd-vim'
+Plug 'romgrk/barbar.nvim'
 
 " Prose
 Plug 'junegunn/goyo.vim'

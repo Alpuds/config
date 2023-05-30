@@ -35,6 +35,9 @@ source ~/.config/nvim/plugins/telescope.lua
 " File tree viewer
 source ~/.config/nvim/plugins/nvim-tree.lua
 
+" Tabs
+source ~/.config/nvim/plugins/barbar.vim
+
 " Snippets
 source ~/.config/nvim/plugins/luasnip.lua
 
