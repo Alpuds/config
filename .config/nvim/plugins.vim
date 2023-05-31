@@ -9,6 +9,9 @@ call plug#begin(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"
 
 " Coding
 Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'mhartington/formatter.nvim'
 Plug 'filipdutescu/renamer.nvim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'L3MON4D3/LuaSnip', {'tag': 'v<CurrentMajor>.*'}
@@ -16,7 +19,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'lukas-reineke/indent-blankline.nvim'
-
 
 " Git integration
 Plug 'tpope/vim-fugitive'

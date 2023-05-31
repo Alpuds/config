@@ -15,10 +15,14 @@ source ~/.config/nvim/core/mappings.vim
 " Auto-completion:
 source ~/.config/nvim/plugins/nvim-cmp.lua
 
+" LSP package manager
+source ~/.config/nvim/plugins/lsp/mason.lua
+
 " LSP
 source ~/.config/nvim/plugins/lsp/lsp-config.vim
-source ~/.config/nvim/plugins/lsp/python-lsp.lua
-source ~/.config/nvim/plugins/lsp/texlab-lsp.lua
+
+" Code formatter
+source ~/.config/nvim/plugins/formatter.lua
 
 " Git integration
 source ~/.config/nvim/plugins/vim-fugitive.vim
