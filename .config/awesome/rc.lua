@@ -21,6 +21,9 @@ require("awful.hotkeys_popup.keys")
 require("awful.remote")
 focus_method = 'by_id'
 
+-- Notification presets
+require("notif-config.notification_presets")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -66,6 +69,7 @@ awful.mouse.snap.edge_enabled = false
 terminal = os.getenv("TERMINAL")
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
+home = os.getenv('HOME')
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -96,8 +100,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -173,19 +175,58 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen  = s,
-        filter  = awful.widget.taglist.filter.all,
+        filter  = awful.widget.taglist.filter.noempty,
         buttons = taglist_buttons
     }
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
-        filter  = awful.widget.tasklist.filter.currenttags,
+        filter  = awful.widget.tasklist.filter.focused,
         buttons = tasklist_buttons
     }
 
+    -- Create a textclock widget
+    mytextclock = wibox.widget.textclock(' %F (%a) 󰥔 %r', 1)
+    -- Create calendar widget
+    local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+    local cw = calendar_widget({
+        theme = 'dark',
+        placement = 'top_right',
+        start_sunday = true,
+        radius = 8,
+    -- customized next/previous
+        previous_month_button = 4, -- scroll wheel up
+        next_month_button = 5,     -- scroll wheel down
+    })
+    mytextclock:connect_signal("button::press",
+        function(_, _, _, button)
+            if button == 1 then cw.toggle() end
+        end)
+
+    -- mpd widget
+    local mpdarc_widget = require("awesome-wm-widgets.mpdarc-widget.mpdarc")
+    -- volume widget with pactl
+    local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
+    -- net speed widget
+    local net_speed_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
+    -- battary widget
+    sb_battery = awful.widget.watch('sb-battery', 17)
+    sb_internet = awful.widget.watch('sb-internet', 3)
+    sb_forecast = awful.widget.watch('sb-forecast', 86400) -- 24 hours in seconds
+
+    sb_internet:connect_signal("button::press",
+        function(_, _, _, button)
+            if button == 1 then awful.spawn(terminal .. ' -e nmtui') end
+        end)
+
+    sb_forecast:connect_signal("button::press",
+        function(_, _, _, button)
+            if button == 1 then awful.spawn(terminal .. ' -e less -Sf ' .. home .. '/.cache/weatherreport') end
+        end)
+
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = 30 })
 
     -- Create systray
     s.systray = wibox.widget.systray()
@@ -202,8 +243,17 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            s.systray, mytextclock,
+            spacing = 5,
+            mpdarc_widget,
+            s.systray,
+            sb_battery,
+            sb_forecast,
+            net_speed_widget(),
+            volume_widget{
+                        mixer_cmd = terminal .. ' -e pulsemixer',
+                    },
+            mytextclock,
+            sb_internet,
             s.mylayoutbox,
         },
     }
@@ -227,6 +277,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "Tab", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
+    -- Toggle statusbar
+    awful.key({ modkey, "Shift" }, "b", function ()
+        mouse.screen.mywibox.visible = not mouse.screen.mywibox.visible
+    end),
+
     -- Master and column manipulation
     awful.key({ modkey    }, "o",     function () awful.tag.incnmaster( 1, nil, true) end,
               {description = "increase the number of master clients", group = "layout"}),
@@ -240,8 +295,12 @@ globalkeys = gears.table.join(
     -- Swap layout
     awful.key({ modkey, "Control" }, "space", function () awful.layout.inc( 1)                end,
               {description = "select next", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
-              {description = "select previous", group = "layout"}),
+    awful.key({ modkey, "Shift"   }, "space", function ()
+                for _, c in ipairs(client.get()) do
+                    c.floating = false
+                end
+            end,
+              {description = "Make all windows be tiled", group = "layout"}),
 
     -- Focus screen
     awful.key({ modkey, "Control" }, "Tab", function () awful.screen.focus_relative( 1) end,
@@ -253,9 +312,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "Escape", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+              {description = "quit awesome", group = "awesome"})
+    --[[
     awful.key({ modkey, "Alt" }, "p",
               function ()
+                  pass()
                   awful.prompt.run {
                     prompt       = "Run Lua code: ",
                     textbox      = awful.screen.focused().mypromptbox.widget,
@@ -264,7 +325,7 @@ globalkeys = gears.table.join(
                   }
               end,
               {description = "lua execute prompt", group = "awesome"})
-
+    --]]
 )
 
 clientkeys = gears.table.join(
@@ -538,14 +599,16 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     raise = true,
-                     keys = clientkeys,
-                     buttons = clientbuttons,
-                     screen = awful.screen.preferred,
-     }
+        properties = {
+            border_width = beautiful.border_width,
+            border_color = beautiful.border_normal,
+            focus = awful.client.focus.filter,
+            raise = true,
+            keys = clientkeys,
+            buttons = clientbuttons,
+            screen = awful.screen.preferred,
+            placement = awful.placement.centered + awful.placement.no_overlap+awful.placement.no_offscreen
+        }
     },
 
     -- Floating clients.

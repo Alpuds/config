@@ -12,8 +12,7 @@ local themes_path = gfs.get_themes_dir()
 local theme = {}
 
 theme.font          = "Noto Sans Mono Regular 10"
-
-theme.bg_normal     = "#1d1f21"
+theme.bg_normal     = "#0c0c0c"
 theme.bg_focus      = "#2b0000"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#444444"
@@ -44,6 +43,7 @@ theme.border_marked = "#4104bd"
 --theme.taglist_bg_focus = "#ff0000"
 
 -- Generate taglist squares:
+--[[
 local taglist_square_size = dpi(4)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
     taglist_square_size, theme.fg_normal
@@ -51,6 +51,7 @@ theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
     taglist_square_size, theme.fg_normal
 )
+--]]
 
 -- Variables set for theming notifications:
 -- notification_font
