@@ -9,7 +9,7 @@
 # mpv
 # pv
 
-defaultSound='a media file' # Default media file that is played when the timer goes off
+defaultSound="${HOME}/Music/vn/umineko/far.mp3" # Default media file that is played when the timer goes off
 colorBEGIN='\033[1;36m' # This makes the text be colored cyan and be bolded
 colorEND='\033[0m' # This makes the text following it be normal/plain
 
@@ -135,5 +135,26 @@ END
     *) time=$1; messageTitle=$2; messageBody=$3;;
 esac
 
+# Determine the window manager
+id="$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)"
+id="${id##* }"
+wm="$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t)"
+echo "$wm" | grep -q 'awesome' && usingAwesome=true
+# original line (bash only): wm="${wm/*WM_NAME = }"
+# original line (bash only): wm="${wm/\"}"
+# original line (bash only): wm="${wm/\"*}"
+
 # The timer itself
-sleep $time | pv && notify-send "$messageTitle" "$messageBody" ; echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND"; $doSound
+if [ "$usingAwesome" = true ]; then
+    sleep $time | pv
+    awesome-client << END
+local naughty = require('naughty')
+naughty.notify{
+preset = naughty.config.presets.normal,
+title = "${messageTitle}",
+text = "${messageBody}",
+}
+END
+else
+    sleep $time | pv && notify-send "$messageTitle" "$messageBody" ; echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND"; $doSound
+fi
