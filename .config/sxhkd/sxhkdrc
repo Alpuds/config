@@ -105,15 +105,15 @@ super + alt + ctrl + c
 #===== Media Controls ====#
 # Decrease volume
 super + {_, shift} + minus
-	pamixer --allow-boost -d {5,15}; kill -44 $(pidof dwmblocks)
+	pactl set-sink-volume @DEFAULT_SINK@ {-5, -15}%
 
 # Increase volume
 super + {_, shift} + equal
-	pamixer --allow-boost -i {5,15}; kill -44 $(pidof dwmblocks)
+	pactl set-sink-volume @DEFAULT_SINK@ {+5, +15}%
 
 # Audio mixer
 super + F4
-	$TERMINAL -e pulsemixer; kill -44 $(pidof dwmblocks)
+	$TERMINAL -e pulsemixer
 
 # Pause or stop music
 super + {_, shift, ctrl} + p
@@ -137,19 +137,22 @@ super + {_, shift} + period
 
 #---- Media Buttons ----#
 XF86AudioMute
-	pamixer -t; kill -44 $(pidof dwmblocks)
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 XF86AudioRaiseVolume
-	pamixer --allow-boost -i 3; kill -44 $(pidof dwmblocks)
+	pactl set-sink-volume @DEFAULT_SINK@ +3%
 
 XF86AudioLowerVolume
-	pamixer --allow-boost -d 3; kill -44 $(pidof dwmblocks)
+	pactl set-sink-volume @DEFAULT_SINK@ -3%
 
 XF86Audio{Prev,Next}
 	mpc {prev, next}
 
-XF86Audio{Pause, Play}
-	mpc {pause, play}
+XF86AudioPause
+	mpc pause
+
+XF86AudioPlay
+	mpc play
 
 XF86AudioStop
 	mpc stop
