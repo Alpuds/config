@@ -222,7 +222,12 @@ awful.screen.connect_for_each_screen(function(s)
 
     sb_forecast:connect_signal("button::press",
         function(_, _, _, button)
-            if button == 1 then awful.spawn(terminal .. ' -e less -Sf ' .. home .. '/.cache/weatherreport') end
+            if button == 1 then
+                awful.spawn.easy_async_with_shell('sb-forecast', function(out)
+                    sb_forecast.text = out
+                end)
+                awful.spawn(terminal .. ' -e less -Sf ' .. home .. '/.cache/weatherreport')
+            end
         end)
 
     -- Create the wibox

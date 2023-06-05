@@ -2,7 +2,7 @@
 
 # Displays today's precipication chance (☔), and daily low (🥶) and high (🌞).
 # Usually intended for the statusbar.
-
+LOCATION='location'
 url="${WTTRURL:-wttr.in}"
 weatherreport="${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport"
 
