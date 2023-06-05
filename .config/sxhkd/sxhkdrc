@@ -31,8 +31,9 @@ super + grave
 	dmenuunicode
 
 # Panic button
+# With xdotool: sleep 0.2 ; xdotool key super+6 ; thunderbird
 super + alt + space
-	sleep 0.2 ; xdotool key super+6 ; thunderbird
+	echo 'local awful = require("awful")\nlocal t = awful.tag.find_by_name(awful.screen.focused(), "6")\nt:view_only()' | awesome-client ; thunderbird
 
 #==== Programs ====#
 # Terminal
