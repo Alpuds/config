@@ -1,14 +1,19 @@
 #!/bin/sh
+
 # A dmenu wrapper script for system functions.
+# In order for awesome-client to work, awesomeWM
+# needs to have the module 'awful.remote' loaded:
+# require('awful.remote')
+
 case "$(readlink -f /sbin/init)" in
 	*systemd*) ctl='systemctl' ;;
 	*) ctl='loginctl' ;;
 esac
 
-case "$(printf "🔒 lock\n🚪 leave dwm\n♻️ renew dwm\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown\n📺 display off" | dmenu -i -p 'Action: ')" in
+case "$(printf "🔒 lock\n🚪 leave awesome\n♻️ restart awesome\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown\n📺 display off" | dmenu -i -p 'Action: ')" in
 	'🔒 lock') betterlockscreen -l --time-format "%r" ;;
-	'🚪 leave dwm') kill -TERM "$(pgrep -u "$USER" "\bdwm$")" ;;
-	'♻️ renew dwm') kill -HUP "$(pgrep -u "$USER" "\bdwm$")" ;;
+	'🚪 leave awesome') kill -TERM "$(pgrep -u "$USER" "\bawesome$")" ;;
+    '♻️ restart awesome') awesome-client 'awesome.restart()' ;;
 	'🐻 hibernate') $ctl hibernate ;;
 	'💤 sleep') $ctl suspend ;;
 	'🔃 reboot') $ctl reboot ;;
