@@ -3,4 +3,13 @@
 # This script is the SUDO_ASKPASS variable, meaning that it will be used as a
 # password prompt if needed.
 
-dmenu -fn Monospace-18 -P -p "$1" <&- && echo
+# Take password prompt from STDIN, print password to STDOUT
+# the sed piece just removes the colon from the provided
+# prompt: rofi -p already gives us a colon
+rofi -dmenu \
+-password \
+-no-fixed-num-lines \
+-p "$(printf "$1" | sed s/://)" \
+<&- && echo
+
+# dmenu -fn Monospace-18 -P -p "$1" <&- && echo

@@ -10,7 +10,8 @@ case "$(readlink -f /sbin/init)" in
 	*) ctl='loginctl' ;;
 esac
 
-case "$(printf "🔒 lock\n🚪 leave awesome\n♻️ restart awesome\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown\n📺 display off" | dmenu -i -p 'Action: ')" in
+# case "$(printf "🔒 lock\n🚪 leave awesome\n♻️ restart awesome\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown\n📺 display off" | dmenu -i -p 'Action: ')" in
+case "$(printf "🔒 lock\n🚪 leave awesome\n♻️ restart awesome\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown\n📺 display off" | rofi -dmenu -i -p 'Action: ')" in
 	'🔒 lock') betterlockscreen -l --time-format "%r" ;;
 	'🚪 leave awesome') kill -TERM "$(pgrep -u "$USER" "\bawesome$")" ;;
     '♻️ restart awesome') awesome-client 'awesome.restart()' ;;

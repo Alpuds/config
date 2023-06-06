@@ -63,9 +63,9 @@ super + k
 super + alt + e
 	$TERMINAL -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook
 
-# Program launcher and password manager
-super + {_, shift} + d
-	{dmenu_run, passmenu}
+# Program launcher
+super + d
+	rofi -show combi -modes combi -modes combi -combi-modes 'window,drun,run'
 
 # RSS reader
 super + alt + n
