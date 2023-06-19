@@ -155,6 +155,14 @@ end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
+
+-- volume widget with pactl
+-- This is outside of connect_for_each_screen loop so the widget updates on each screen/monitor (one instance of the widget)
+local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
+local my_volume = volume_widget{
+    mixer_cmd = terminal .. ' -e pulsemixer',
+}
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -206,8 +214,6 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- mpd widget
     local mpdarc_widget = require("awesome-wm-widgets.mpdarc-widget.mpdarc")
-    -- volume widget with pactl
-    local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
     -- net speed widget
     local net_speed_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
     -- battary widget
@@ -254,9 +260,7 @@ awful.screen.connect_for_each_screen(function(s)
             sb_battery,
             sb_forecast,
             net_speed_widget(),
-            volume_widget{
-                        mixer_cmd = terminal .. ' -e pulsemixer',
-                    },
+            my_volume,
             mytextclock,
             sb_internet,
             s.mylayoutbox,
