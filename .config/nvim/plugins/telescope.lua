@@ -12,7 +12,7 @@ vim.api.nvim_set_keymap('n', '<leader>fgb', '<cmd>lua require("telescope.builtin
 
 require("telescope").setup({
     defaults = {
-        file_sorter = require("telescope.sorters").get_fzy_sorter,
+        file_sorter = require("telescope.sorters").get_fzf_sorter,
         prompt_prefix = " >",
         color_devicons = true,
 
@@ -28,14 +28,14 @@ require("telescope").setup({
         },
     },
     extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
+        fzf = {
+            override_generic_sorter = true,
             override_file_sorter = true,
         },
     },
 })
 
-require("telescope").load_extension("fzy_native")
+require("telescope").load_extension("fzf")
 
 local M = {}
 M.search_dotfiles = function()
