@@ -7,6 +7,7 @@ local actions = require("telescope.actions")
 
 -- Mappings
 vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fgr', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fgb', '<cmd>lua require("telescope.builtin").git_branches()<cr>', { noremap = true, silent = true })
 
