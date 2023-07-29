@@ -56,15 +56,17 @@ abort_or_default(){
 }
 
 soundCheckNSetter(){
-    if [ ! $1 = default ]; then
-        if [ -f $1 ]; then
-            doSound="mpv $1"
-        else
-            abort_or_default $1 && doSound="mpv $defaultSound"
-        fi
-    else
-        doSound="mpv $defaultSound"
-    fi
+    case "$1" in
+        none) ;;
+        default) doSound="mpv $defaultSound" ;;
+        *)
+            if [ -f $1 ]; then
+                doSound="mpv $1"
+            else
+                abort_or_default $1 && doSound="mpv $defaultSound"
+            fi
+        ;;
+    esac
 }
 
 # Shows text on how to use timer if no arguments were passed in
