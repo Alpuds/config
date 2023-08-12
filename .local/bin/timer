@@ -52,7 +52,7 @@ abort_or_default(){
     echo "The file '$1' does not exist."
     echo "The default sound is '$defaultSound'"
     read -r -p 'Use the default sound? [y/N] ' ans < /dev/tty
-    [ "$ans" = y ] && return 0 || exit 0
+    [ "$ans" = y ] && return 0 || exit 1
 }
 
 soundCheckNSetter(){
@@ -81,8 +81,7 @@ case $1 in
             doSound="mpv $2" && time=$3; messageTitle=$4; messageBody=$5
         else
             # Checks if the second argument is a valid time (e.g., 39m)
-            # Since the amount of valid times is infnite, the regex only supports upto 4 "arguments" (e.g., 1d 2h 3m 4s)
-            echo $2 | grep -qE '^[0-9]+[smhd]?\s*([0-9]+[smhd]?)?\s*([0-9]+[smhd]?)?\s*([0-9]+[smhd]?)?\s*$' && arg2=validTime
+            echo $2 | grep -qE '^([0-9]+[smhd]?\s*)+$' && arg2=validTime
 
             if [ "$arg2" = validTime ]; then
                 doSound="mpv $defaultSound"; time=$2; messageTitle=$3; messageBody=$4
@@ -96,7 +95,7 @@ case $1 in
     --sound) doSound="mpv $defaultSound"; time=$2; messageTitle=$3; messageBody=$4;;
     --sound=*)
         # Essentially, ${1#*=} deletes anything that ends with '='. In this instance, '--sound=' will be deleted,
-        # leaving the characters after '=' to stay. Example: artoria=saber -> saber
+        # leaving the characters after '=' to stay. Example: saber=artoria -> artoria
         if [ -f ${1#*=} ]; then
             # If there is nothing after '=', then abort_or_default will execute.
             if [ $(echo $1 | wc -c) = 9 ]; then
@@ -113,7 +112,7 @@ case $1 in
             if [ $name = $2 ]; then
             # Determine if $sound is a valid file, and if $sound=default,
             # timer will use $defaultSound
-            soundCheckNSetter $sound
+            soundCheckNSetter "$sound"
             time=$duration; messageTitle=$msgTitle; messageBody=$msgBody
             fi
         done < $presetFile
