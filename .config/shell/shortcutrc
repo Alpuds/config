@@ -27,4 +27,4 @@ cfmb="$EDITOR /home/alpuds/.config/ncmpcpp/bindings" \
 cfmc="$EDITOR /home/alpuds/.config/ncmpcpp/config" \
 cfl="$EDITOR /home/alpuds/.config/lf/lfrc" \
 cfL="$EDITOR /home/alpuds/.config/lf/scope" \
-cfX="$EDITOR /home/alpuds/.config/sxiv/exec/key-handler" \
+cfX="$EDITOR /home/alpuds/.config/nsxiv/exec/key-handler" \

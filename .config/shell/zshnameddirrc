@@ -26,4 +26,4 @@ hash -d cfmb=/home/alpuds/.config/ncmpcpp/bindings
 hash -d cfmc=/home/alpuds/.config/ncmpcpp/config
 hash -d cfl=/home/alpuds/.config/lf/lfrc
 hash -d cfL=/home/alpuds/.config/lf/scope
-hash -d cfX=/home/alpuds/.config/sxiv/exec/key-handler
+hash -d cfX=/home/alpuds/.config/nsxiv/exec/key-handler

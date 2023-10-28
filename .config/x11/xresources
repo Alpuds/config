@@ -7,11 +7,11 @@ Xcursor.size:32
 !! Set a default font and font size as below:
 *.font: monospace:size=12
 
-!! sxiv background color
-Sxiv.background: #121212
+!! nsxiv background color
+Nsxiv.window.background: #121212
 
-!! sxiv foreground color
-Sxiv.foreground: #e66419
+!! nsxiv foreground color
+Nsxiv.window.foreground: #e66419
 
 /* name		dark	light */
 /* black	0	8 */
