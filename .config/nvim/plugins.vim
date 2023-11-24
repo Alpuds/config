@@ -14,7 +14,7 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'mhartington/formatter.nvim'
 Plug 'filipdutescu/renamer.nvim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'L3MON4D3/LuaSnip', {'tag': 'v<CurrentMajor>.*'}
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
