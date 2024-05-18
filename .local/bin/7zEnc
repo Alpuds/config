@@ -72,7 +72,7 @@ case $1 in
         ;;
 esac
 
-7zz a \
+7z a \
 -t7z -m0=lzma2 -mx=9 -mfb=64 \
 -md=32m -ms=on -mhe=on -p \
 $volume \
