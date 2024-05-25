@@ -18,6 +18,7 @@ export XMODIFIERS=@im='fcitx'
 
 # Default programs:
 export EDITOR="nvim"
+export DIFFPROG='nvim -d'
 export TERMINAL="alacritty"
 export BROWSER="brave"
 

@@ -92,6 +92,7 @@ A,betterlockscreen,"allows you to lock your computer, and quickly unlock with yo
 ,bluez,"provides bluetooth."
 ,bluez-utils,"provides tools to use bluetooth."
 ,reflector,"is a script to update pacman mirrorlists."
+,pacman-contrib,"has scripts to manage packages."
 A,dragon-drop,"is a simple drag-and-drop source/sink for X."
 ,keepassxc,"is an offline Keepass password manager."
 ,qt5ct,"is a Qt5 configuration utility."
