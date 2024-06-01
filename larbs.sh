@@ -4,6 +4,11 @@
 # by Luke Smith <luke@lukesmith.xyz>
 # License: GNU GPLv3
 
+# Run this script as root.
+# Allow the wheel group to use sudo.
+# After that, manually install the AUR helper.
+# Then, run this script as root again to continue the rest of the installation.
+
 ### OPTIONS AND VARIABLES ###
 
 dotfilesrepo="https://github.com/Alpuds/config.git"
@@ -57,7 +62,7 @@ usercheck() {
 preinstallmsg() {
 	whiptail --title "Let's get this party started!" --yes-button "Let's go!" \
 		--no-button "No, nevermind!" \
-		--yesno "The rest of the installation will now be totally automated, so you can sit back and relax.\\n\\nIt will take some time, but when done, you can relax even more with your complete system.\\n\\nNow just press <Let's go!> and the system will begin installation!" 13 60 || { clear; exit 1; }
+		--yesno "The rest of the installation will now be totally automated except for the AUR helper installation, so you can sit back and relax.\\n\\nIt will take some time, but when done, you can relax even more with your complete system.\\n\\nNow just press <Let's go!> and the system will begin installation!" 13 60 || { clear; exit 1; }
 }
 
 adduserandpass() {
@@ -104,16 +109,21 @@ Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
 }
 
 manualinstall() {
-	# Installs $1 manually. Used only for AUR helper here.
+	# User should install $1 manually. Used only for AUR helper here.
 	# Should be run after repodir is created and var is set.
-	whiptail --infobox "Installing \"$1\", an AUR helper..." 7 50
-	sudo -u "$name" mkdir -p "$repodir/$1"
-	sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
-		--no-tags -q "https://aur.archlinux.org/$1.git" "$repodir/$1" ||
-		{ cd "$repodir/$1" || return 1 ; sudo -u "$name" git pull --force origin master ;}
-	cd "$repodir/$1" || exit 1
-	sudo -u "$name" -D "$repodir/$1" \
-		makepkg --noconfirm -si >/dev/null 2>&1 || return 1
+    # This will prompt the user to install an AUR helper if not already installed.
+    pacman -Qq $1
+
+    if [ $? != 0 ]; then
+        whiptail --title "Manually install an AUR helper" \
+                 --msgbox "To continue the isntallation script, manually install an AUR helper." 10 60
+        return 1
+    else
+        whiptail --title "AUR helper installed" \
+                 --msgbox "The script is able to install AUR packages." 10 60
+        return 0
+    fi
+
 }
 
 maininstall() {
@@ -239,7 +249,7 @@ sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
 # Use all cores for compilation.
 sed -i "s/-j2/-j$(nproc)/;/^#MAKEFLAGS/s/^#//" /etc/makepkg.conf
 
-manualinstall yay || error "Failed to install AUR helper."
+manualinstall yay || error "Install an AUR helper to continue the rest of the script."
 
 # The command that does all the installing. Reads the progs.csv file and
 # installs each needed program the way required. Be sure to run this only after
