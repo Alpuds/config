@@ -5,6 +5,7 @@ gameList=~/.local/share/gl/games.csv
 helpMsg(){
     cat <<END
 Usage: gl [OPTION...]
+       gl -r TYPE [-g] LABEL
 OPTION:
 The argument for the long form of an option has to be used for the short form as well
 (e.g., --run=windows would be -r windows.).
@@ -15,6 +16,7 @@ The argument for the long form of an option has to be used for the short form as
      Run the game that LABEL is assigned to. TYPE is the type of game that the
      program should handle it as. For Windows games, substitute TYPE with "w" or
      "windows". For native games, substitute TYPE with "n" or "native".
+-g   Only use with '-r w'. Use a wine fork to run windows programs.
 -h, --help
      Shows this help text and exits.
 
@@ -24,6 +26,9 @@ For example:
 w, mbaacc: Melty Blood Actress Again Current Code
 END
 }
+
+wineBin=wine # Default system installation of wine
+gamePos=$3   # The LABEL argument is position 3 when "-g" is not passed
 
 [ $# = 0 ] && echo -e "Usage: gl [OPTION...]\nTry 'gl --help' for more information." && exit 1
 
@@ -39,7 +44,7 @@ listGames(){
 
 runWindowsGame(){
     while IFS=, read -r type game label path prefix bin; do
-        [ $label = $1 ] && cd $path && WINEPREFIX=$prefix wine $bin
+        [ $label = $1 ] && cd $path && WINEPREFIX=$prefix $wineBin $bin
     done < $gameList
 }
 
@@ -54,7 +59,13 @@ case $1 in
         listGames ;;
     -r)
         if [[ $2 == 'w' || $2 == 'windows' ]]; then
-            runWindowsGame $3
+
+            if [[ $3 == '-g' ]]; then
+                wineBin=/home/alpuds/.local/share/wine-forks/lutris-GE-Proton8-26-x86_64/bin/wine
+                gamePos=$4
+            fi
+
+            runWindowsGame $gamePos
             checkError
         elif [[ $2 == 'n' || $2 == 'native' ]]; then
             runNativeGame $3
@@ -66,7 +77,14 @@ case $1 in
         ;;
     --run=*)
         if [[ $1 == '--run=w' || $1 == '--run=windows' ]]; then
-            runWindowsGame $2
+            gamePos=$2
+
+            if [[ $2 == '-g' ]]; then
+                wineBin=/home/alpuds/.local/share/wine-forks/lutris-GE-Proton8-26-x86_64/bin/wine
+                gamePos=$3
+            fi
+
+            runWindowsGame $gamePos
             checkError
         elif [[ $1 == '--run=n' || $1 == '--run=native' ]]; then
             runNativeGame $2
