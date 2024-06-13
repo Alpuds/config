@@ -7,6 +7,9 @@ Xcursor.size:32
 !! Set a default font and font size as below:
 *.font: monospace:size=12
 
+!! scaling for hiDPI
+!! Xft.dpi: 199
+
 !! nsxiv background color
 Nsxiv.window.background: #121212
 
