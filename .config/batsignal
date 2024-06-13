@@ -1,0 +1,33 @@
+# Have notifications expire
+-e
+
+# Run as a daemon
+-b
+
+# Warning level at 25%
+-w
+25
+# Warning message
+-W
+Low battery
+
+# Critical level at 10%
+-c
+10
+# Critical message
+-C
+Very low battery
+
+# Danger level at 5%
+-d
+5
+# Hibernate at danger level
+-D
+sudo systemctl hibernate
+
+# Full level at 80%
+-f
+80
+# Full level message
+-F
+Unplug charger
