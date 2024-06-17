@@ -10,6 +10,15 @@ Xcursor.size:32
 !! scaling for hiDPI
 !! Xft.dpi: 199
 
+/*
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+*/
+
 !! nsxiv background color
 Nsxiv.window.background: #121212
 
