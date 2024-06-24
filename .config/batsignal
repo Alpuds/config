@@ -21,9 +21,9 @@ Very low battery
 # Danger level at 5%
 -d
 5
-# Hibernate at danger level
+# Optionally hibernate at danger level
 -D
-sudo systemctl hibernate
+hibernateAct
 
 # Full level at 80%
 -f

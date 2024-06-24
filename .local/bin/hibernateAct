@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Display a menu to hibernate or not.
+# This script is ran when the battery is at danger level.
+
+case "$(readlink -f /sbin/init)" in
+	*systemd*) ctl='systemctl' ;;
+	*) ctl='loginctl' ;;
+esac
+
+case "$(printf "🐻 yes\n❌ no" | rofi -dmenu -i -p 'Low battery, hibernate now: ')" in
+	'🐻 yes') $ctl hibernate ;;
+    '❌ no') exit 0;;
+	*) exit 1 ;;
+esac
