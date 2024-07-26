@@ -289,8 +289,12 @@ echo "export \$(dbus-launch)" > /etc/profile.d/dbus.sh
         MatchIsTouchpad "on"
         MatchDevicePath "/dev/input/event*"
         Driver "libinput"
-	# Enable left mouse button by tapping
-	Option "Tapping" "on"
+	    # Enable left mouse button by tapping
+	    Option "Tapping" "on"
+        # Disable mouse accel
+        Option "AccelProfile" "flat"
+        # Increase mouse speed
+        # Option "AccelSpeed" "0.5"
 EndSection' > /etc/X11/xorg.conf.d/40-libinput.conf
 
 # Allow wheel users to sudo with password and allow several system commands
