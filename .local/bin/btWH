@@ -4,21 +4,34 @@ helpMsg(){
     cat <<END
     Usage: btWH [command]
     commands:
-    c     connect the device to the computer.
+    ch     connect the headphones to the computer.
 
-    d     disconnect the devive from the computer.
+    dh     disconnect the headphones from the computer.
+
+    ce     connect the earbuds to the computer.
+
+    de     disconnect the earbuds from the computer.
 END
 }
 
-device='device MAC address'
+# Headphones
+headphones='headphones MAC address'
+# Earbuds
+earbuds='earbuds MAC address'
 
 case $1 in
-    c)
+    ch)
         echo 'power on' | bluetoothctl
         sleep 1
-        echo "connect $device" | bluetoothctl ;;
-    d)
-        echo "disconnect $device" | bluetoothctl ;;
+        echo "connect $headphones" | bluetoothctl ;;
+    dh)
+        echo "disconnect $headphones" | bluetoothctl ;;
+    ce)
+        echo 'power on' | bluetoothctl
+        sleep 1
+        echo "connect $earbuds" | bluetoothctl ;;
+    de)
+        echo "disconnect $earbuds" | bluetoothctl ;;
     *)
         helpMsg ;;
 esac
