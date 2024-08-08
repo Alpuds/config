@@ -16,7 +16,11 @@ defaultSound="${HOME}/Music/vn/umineko/far.mp3"
 # Use libnotify (notify-send) to send notifications
 useLibnotify=true
 # This makes the text be colored cyan and be bolded
-colorBEGIN='\033[1;36m'
+colorCyan='\033[1;36m'
+# This makes the text be colored red and be bolded
+colorRed='\033[1;31m'
+# This makes the text be colored yellow and be bolded
+colorYellow='\033[1;33m'
 # This makes the text following it be normal/plain
 colorEND='\033[0m'
 
@@ -67,6 +71,73 @@ soundCheckNSetter(){
             fi
         ;;
     esac
+}
+
+
+triggerTimestamp(){
+    # Display the time at which the timer will go off
+    # Assumes the first argument is a valid time (e.g., '1h')
+    currentHrs=$(date +'%-I')
+    currentMins=$(date +'%-M')
+    currentSecs=$(date +'%-S')
+
+    amPM=$(date +%p)
+
+    hours=$(echo $1 | grep -Eo '([0-9]+h)')
+    minutes=$(echo $1 | grep -Eo '([0-9]+m)')
+    seconds=$(echo $1 | grep -Eo '([0-9]+s)')
+
+    # Strip the letter suffix (1h -> 1)
+    [ "$hours" = '' ] && hours=0 || hours=${hours%?}
+    [ "$minutes" = '' ] && minutes=0 || minutes=${minutes%?}
+    [ "$seconds" = '' ] && seconds=0 || seconds=${seconds%?}
+
+    # Determine if there will be carry over (e.g., 50s + 20s = 1m 10s)
+    totalSecs=$(expr $currentSecs + $seconds)
+    if [ $totalSecs -ge 60 ]; then
+        seconds=$(expr $totalSecs % 60) # This will be displayed and should not change
+        minutes=$(expr $minutes + $(expr $totalSecs / 60))
+    else
+        seconds=$totalSecs
+    fi
+
+    # Same thing as above but with minutes to hours
+    totalMins=$(expr $currentMins + $minutes)
+    if [ $totalMins -ge 60 ]; then
+        minutes=$(expr $totalMins % 60) # This will be displayed and should not change
+        hours=$(expr $hours + $(expr $totalMins / 60))
+    else
+        minutes=$totalMins
+    fi
+
+    # Same thing as above but handling hours turning from 12pm to 1am
+    totalHrs=$(expr $currentHrs + $hours)
+    if [ $totalHrs -ge 13 ]; then
+        if [ $(expr $totalHrs % 12) -eq 0 ]; then
+            hours=12 # This will be displayed and should not change
+        else
+            hours=$(expr $totalHrs % 12) # This will be displayed and should not change
+         fi
+        if [ $(expr $(expr $totalHrs / 12) % 2) -ne 0 ] ; then
+            if [ $amPM = 'PM' ]; then
+                amPM='AM'
+            else
+                amPM='PM'
+            fi
+        fi
+    else
+        hours=$totalHrs
+    fi
+
+    # Pad minutes and seconds with zeros
+    if [ $minutes -lt 10 ]; then
+        minutes="0$minutes"
+    fi
+    if [ $seconds -lt 10  ]; then
+        seconds="0$seconds"
+    fi
+
+    echo "The timer will go off at ${colorYellow}${hours}:${minutes}:${seconds}${colorRed} ${amPM}${colorEND}"
 }
 
 # Shows text on how to use timer if no arguments were passed in
@@ -154,6 +225,7 @@ echo "$wm" | grep -q 'awesome' && usingAwesome=true
 
 # The timer itself
 if [ "$usingAwesome" = true -a "$useLibnotify" = false ]; then
+    triggerTimestamp $time
     sleep $time | pv
     awesome-client << END
 local naughty = require('naughty')
@@ -163,7 +235,8 @@ title = "${messageTitle}",
 text = "${messageBody}",
 }
 END
-    echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND"; $doSound
+    echo "\nFinished at $colorCyan$(date +"%r")$colorEND"; $doSound
 else
-    sleep $time | pv && notify-send "$messageTitle" "$messageBody" ; echo "\nFinished at $colorBEGIN$(date +"%r")$colorEND"; $doSound
+    triggerTimestamp $time
+    sleep $time | pv && notify-send "$messageTitle" "$messageBody" ; echo "\nFinished at $colorCyan$(date +"%r")$colorEND"; $doSound
 fi
