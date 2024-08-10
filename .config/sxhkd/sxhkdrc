@@ -17,7 +17,7 @@ super + F3
 
 # Keyboard remapping
 super + F12
-	remaps & notify-send '⌨️ Keyboard remapping...' 'Re-running keyboard defaults for any newly plugged-in keyboards.'
+	setxkbmap us workman; remaps & notify-send '⌨️ Keyboard remapping...' 'Re-running keyboard defaults for any newly plugged-in keyboards.'
 
 # Screenshot
 Print
