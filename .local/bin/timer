@@ -225,7 +225,7 @@ echo "$wm" | grep -q 'awesome' && usingAwesome=true
 
 # The timer itself
 if [ "$usingAwesome" = true -a "$useLibnotify" = false ]; then
-    triggerTimestamp $time
+    triggerTimestamp "$time"
     sleep $time | pv
     awesome-client << END
 local naughty = require('naughty')
@@ -237,6 +237,6 @@ text = "${messageBody}",
 END
     echo "\nFinished at $colorCyan$(date +"%r")$colorEND"; $doSound
 else
-    triggerTimestamp $time
+    triggerTimestamp "$time"
     sleep $time | pv && notify-send "$messageTitle" "$messageBody" ; echo "\nFinished at $colorCyan$(date +"%r")$colorEND"; $doSound
 fi
