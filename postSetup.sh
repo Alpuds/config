@@ -3,12 +3,11 @@
 # Run this script as a regular user after using LARBS.
 
 # This script copies files into their appropriate directories
-# as well as setting them up to make them work (except oAuth2).
+# as well as setting them up to make them work.
 # Specifically these kind of files:
 # - Pacman hooks
 # - SystemD services
 # - Udev rules
-# - oAuth2 tools
 
 boldCyanTxt='\033[1;36m'
 boldYellowTxt='\033[1;32m'
@@ -20,9 +19,6 @@ remindGPU=false
 heading(){
     echo "${boldCyanTxt}${1}$colorEND"
 }
-
-heading "Copying oAuth tools"
-cp -r ./oAuth2Tools ${HOME}/.local/share
 
 heading "Installing wallpapers"
 cd ${HOME}/.local/share
@@ -73,9 +69,7 @@ cat << END
 - Put your location (zip) in the Redshift config file:
 ${HOME}/.config/redshift/redshift.conf
 
-- Set up oAuth2 with google including
-the client credentials and tokens.
-
 END
+
 [ $remindGPU = true ] && echo '- Look into configuring the GPU(s) of the computer.\n'
 heading "The post script finished."
