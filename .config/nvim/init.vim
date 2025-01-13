@@ -45,6 +45,9 @@ source ~/.config/nvim/plugins/barbar.vim
 " Snippets
 source ~/.config/nvim/plugins/luasnip.lua
 
+" Indentation lines
+source ~/.config/nvim/plugins/indent-blankline.lua
+
 " Notes/prose:
 source ~/.config/nvim/plugins/vimwiki.vim
 source ~/.config/nvim/plugins/goyo.vim
