@@ -46,8 +46,9 @@ handle_mime() {
             highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
                 --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" ;;
 	application/zip) atool --list -- "${FILE_PATH}" ;;
+	application/json) bat --color=always --style=numbers --pager=never "${FILE_PATH}" ;;
         image/*) chafa --fill=block --symbols=block -c full -s 80x"${HEIGHT}" "${FILE_PATH}" || exit 1;;
-        video/* | audio/*|application/octet-stream) mediainfo "${FILE_PATH}" || exit 1;;
+        video/* | audio/*|application/octet-stream) mediainfo --Inform=file://"${XDG_CONFIG_HOME}/lf/mediainfoTemplate.txt" "${FILE_PATH}" || exit 1;;
         */pdf) pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - ;;
         *opendocument*) odt2txt "${FILE_PATH}" ;;
     esac

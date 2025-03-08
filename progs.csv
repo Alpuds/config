@@ -4,7 +4,7 @@
 ,xorg-xinit,"starts the graphical server."
 ,libertinus-font,"provides fonts based on Linux Libertine/Biolinum, with extended math support."
 ,lf,"is an extensive terminal file manager that everyone likes."
-,bc,"is used for a dropdown calculator."
+,bat,"is a cat clone with syntax highlighting and Git integration"
 ,qalculate-qt,"is a feature-rich calculator."
 ,piper,"is a GTK app that can configure gaming mice."
 ,sxhkd,"is a simple X hotkey daemon."
