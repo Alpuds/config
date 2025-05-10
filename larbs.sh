@@ -14,7 +14,7 @@
 dotfilesrepo="https://github.com/Alpuds/config.git"
 progsfile="https://raw.githubusercontent.com/Alpuds/config/main/progs.csv"
 aurhelper="yay"
-repobranch="main"
+repobranch="xorg"
 
 ### FUNCTIONS ###
 
