@@ -219,7 +219,6 @@ label:focus {
 #custom-sb-forecast {
     background-color: #242424;
     color: #bfbfbf;
-    margin: 3;
 }
 
 #pulseaudio.muted {
@@ -275,7 +274,6 @@ label:focus {
 #idle_inhibitor {
     background-color: #242424;
     color: #bfbfbf;
-    margin-right: 5;
 }
 
 #idle_inhibitor.activated {
