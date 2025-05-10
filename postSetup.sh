@@ -13,9 +13,6 @@ boldCyanTxt='\033[1;36m'
 boldYellowTxt='\033[1;32m'
 colorEND='\033[0m' # Makes the text be regular
 
-# Reminder flags
-remindGPU=false
-
 heading(){
     echo "${boldCyanTxt}${1}$colorEND"
 }
@@ -28,23 +25,6 @@ ln -sf ${HOME}/.local/share/wallpapers/landscapes/forestWaterFall.jpg bg
 heading "Setting wallpaper"
 setbg
 
-heading "Xorg GPU config"
-read -p 'Make an AMD GPU Xorg config? [y/N]: ' ans
-if [ $ans = 'y' ]; then
-    heading "Making an AMD GPU config"
-    sudo tee /etc/X11/xorg.conf.d/20-amdgpu.conf << END >/dev/null
-Section "Device"
-     Identifier "AMD"
-     Driver "amdgpu"
-     Option "TearFree" "true"
-EndSection
-END
-unset remindGPU
-else
-    heading "Skipping Xorg GPU config."
-    remindGPU=true
-fi
-
 heading "Copying udev rules"
 sudo cp ./udevRules/*.rules /etc/udev/rules.d
 
@@ -55,21 +35,18 @@ sudo udevadm trigger
 heading "Copying Pacman hooks"
 sudo cp ./pacmanHooks/*.hook /usr/share/libalpm/hooks
 
-heading "Copying SystemD services"
-sudo cp ./systemdServices/*.service /etc/systemd/system
+heading "Copying keyd config"
+sudo cp ./.config/keyd/default.conf /etc/keyd/
 
-heading "Setting up betterlockscreen"
-betterlockscreen -u ${HOME}/.local/share/wallpapers/landscapes/forestBridgeFall.jpg
-echo "${boldYellowTxt}In ${boldCyanTxt}10 seconds${boldYellowTxt}, the lockscreen will activate.$colorEND"
-sleep 10 | pv
-sudo systemctl enable --now betterlockscreen@${USER}.service
+heading "Enabling Systemd units"
+sudo systemctl enable --now keyd
+systemctl enable --user --now waybar
 
 echo "${boldYellowTxt}Reminders${colorEND}:"
 cat << END
-- Put your location (zip) in the Redshift config file:
-${HOME}/.config/redshift/redshift.conf
+- Put lat long for wlsunset in the hyprland config file:
+${HOME}/.config/hypr/execs.conf
 
 END
 
-[ $remindGPU = true ] && echo '- Look into configuring the GPU(s) of the computer.\n'
 heading "The post script finished."

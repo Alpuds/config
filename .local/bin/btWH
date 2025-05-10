@@ -15,9 +15,9 @@ END
 }
 
 # Headphones
-headphones='headphones MAC address'
+headphones='mac address'
 # Earbuds
-earbuds='earbuds MAC address'
+earbuds='mac address'
 
 case $1 in
     ch)

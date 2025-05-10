@@ -1,4 +1,4 @@
 #!/bin/sh
 
-# Toggle redshift on or off
-pkill -USR1 redshift
+# Toggle wlsunsest on or off
+pidof -q wlsunset && killall wlsunset || app2unit -- wlsunset -t 3200 -T 6500 -l 33.4 -L -111.9 -g 0.7 & exit 0

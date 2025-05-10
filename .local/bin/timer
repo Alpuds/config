@@ -7,14 +7,10 @@
 # Dependencies:
 # mpv
 # pv
-
-# Optional dependency
-# libnotify --- to use notify-send rather than awesome-client
+# libnotify
 
 # Default media file that is played when the timer goes off
-defaultSound="${HOME}/Music/vn/umineko/far.mp3"
-# Use libnotify (notify-send) to send notifications
-useLibnotify=true
+defaultSound="path to audio file"
 # This makes the text be colored cyan and be bolded
 colorCyan='\033[1;36m'
 # This makes the text be colored red and be bolded
@@ -214,29 +210,7 @@ END
     *) time=$1; messageTitle=$2; messageBody=$3;;
 esac
 
-# Determine the window manager
-id="$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)"
-id="${id##* }"
-wm="$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t)"
-echo "$wm" | grep -q 'awesome' && usingAwesome=true
-# original line (bash only): wm="${wm/*WM_NAME = }"
-# original line (bash only): wm="${wm/\"}"
-# original line (bash only): wm="${wm/\"*}"
-
 # The timer itself
-if [ "$usingAwesome" = true -a "$useLibnotify" = false ]; then
-    triggerTimestamp "$time"
-    sleep $time | pv
-    awesome-client << END
-local naughty = require('naughty')
-naughty.notify{
-preset = naughty.config.presets.normal,
-title = "${messageTitle}",
-text = "${messageBody}",
-}
-END
-    echo "\nFinished at $colorCyan$(date +"%r")$colorEND"; $doSound
-else
-    triggerTimestamp "$time"
-    sleep $time | pv && notify-send "$messageTitle" "$messageBody" ; echo "\nFinished at $colorCyan$(date +"%r")$colorEND"; $doSound
-fi
+triggerTimestamp "$time"
+sleep $time | pv && notify-send "$messageTitle" "$messageBody"
+echo "\nFinished at $colorCyan$(date +"%r")$colorEND"; $doSound

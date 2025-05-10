@@ -30,4 +30,12 @@ else
 	[ -f "$zathuraconf.bak" ] && unlink "$zathuraconf" && mv "$zathuraconf.bak" "$zathuraconf"
 fi
 
-xwallpaper --zoom "$bgloc"
+# xwallpaper --zoom "$bgloc"
+pidof -q swaybg
+status="$?"
+if [ "$status" = 0 ]; then
+    killall swaybg
+    app2unit -- swaybg -i "$bgloc" &
+else
+    app2unit -- swaybg -i "$bgloc" &
+fi

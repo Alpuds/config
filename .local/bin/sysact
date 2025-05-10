@@ -11,14 +11,14 @@ case "$(readlink -f /sbin/init)" in
 esac
 
 # case "$(printf "🔒 lock\n🚪 leave awesome\n♻️ restart awesome\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown\n📺 display off" | dmenu -i -p 'Action: ')" in
-case "$(printf "🔒 lock\n🚪 leave awesome\n♻️ restart awesome\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown\n📺 display off" | rofi -dmenu -i -p 'Action: ')" in
-	'🔒 lock') betterlockscreen -l --time-format "%r" ;;
-	'🚪 leave awesome') kill -TERM "$(pgrep -u "$USER" "\bawesome$")" ;;
-    '♻️ restart awesome') awesome-client 'awesome.restart()' ;;
+case "$(printf "🔒 lock\n🚪 leave Hyprland\n♻️ restart Hyprland\n🐻 hibernate\n💤 sleep\n🔃 reboot\n🖥️shutdown" | rofi -dmenu -i -p 'Action: ')" in
+	'🔒 lock') hyprlock ;;
+	'🚪 leave Hyprland') uwsm stop ;;
+    '♻️ restart Hyprland') hyprctl reload ;;
 	'🐻 hibernate') $ctl hibernate ;;
 	'💤 sleep') $ctl suspend ;;
 	'🔃 reboot') $ctl reboot ;;
 	'🖥️shutdown') $ctl poweroff ;;
-	'📺 display off') xset dpms force off ;;
+    # '📺 display off') hyprctl dispatcher dpms off ;;
 	*) exit 1 ;;
 esac
