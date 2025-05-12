@@ -6,36 +6,34 @@ programName=rsyncDL
 
 helpMsg(){
     cat << END
-Usage: $programName [OPTION] IP PORT PRIVATE_KEY SOURCE DEST
-Use rsync to download files from a remote computer running an SSH server.
+Usage: $programName {-l[n] | -s[n]} IP PORT PRIVATE_KEY SOURCE DEST
+Use rsync to download/upload files from a remote computer running an SSH server.
 
-IP is the IP address of the remote computer to download from.
+IP is the IP address of the remote machine.
 PORT is the port number of the remote machine to connect with.
 PRIVATE_KEY is the path of the private key file to authenticate with.
-SOURCE is the path to download.
-DEST is the path to download SOURCE to (e.g., the local user's home directory).
+SOURCE is the path to copy from.
+DEST is the path to put SOURCE to (e.g., the local user's home directory if pulling from remote).
 
   -n, --dry-run             make no changes (trial run)
+  -l, --pull                download from a remote machine
+  -s, --push                upload to a remote machine
   -h, --help                display this help text and exits the script
 END
 }
 
-[ $# = 0 ] && echo "Usage: $programName [OPTION] IP PORT PRIVATE_KEY SOURCE DEST\nTry '$programName --help' for more information." && exit 1
+[ $# = 0 ] && echo "Usage: $programName {-l[n] | -s[n]} IP PORT PRIVATE_KEY SOURCE DEST\nTry '$programName --help' for more information." && exit 1
+
+echo "$1" | grep -E "^-\w?n\w?" && doDryrun=n
 
 case $1 in
-    -n | --dry-run)
+    -*l* | --pull)
         targetIP=$2; portNum=$3; privKey=$4; source=$5; destination=$6
-        rsync -vPne "ssh -p $portNum -i $privKey" "$targetIP":"$source" "$destination"
+        rsync -vP${doDryrun}e "ssh -p $portNum -i $privKey" "$targetIP":"$source" "$destination"
+        ;;
+    -*s* | --push)
+        targetIP=$2; portNum=$3; privKey=$4; source=$5; destination=$6
+        rsync -vP${doDryrun}e "ssh -p $portNum -i $privKey" "$source" "$targetIP":"$destination"
         ;;
     -h | --help) helpMsg ; exit 0;;
 esac
-
-if [ $# = 5 ]; then
-    targetIP=$1
-    portNum=$2
-    privKey=$3
-    source=$4
-    destination=$5
-
-    rsync -vPe "ssh -p $portNum -i $privKey" "$targetIP":"$source" "$destination"
-fi
