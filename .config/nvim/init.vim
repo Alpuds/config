@@ -28,7 +28,7 @@ source ~/.config/nvim/plugins/formatter.lua
 source ~/.config/nvim/plugins/vim-fugitive.vim
 
 " Highlighting
-source ~/.config/nvim/plugins/tree-sitter.vim
+source ~/.config/nvim/plugins/tree-sitter.lua
 
 " Renamer
 source ~/.config/nvim/plugins/renamer.lua
