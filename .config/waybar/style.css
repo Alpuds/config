@@ -127,7 +127,7 @@ button:hover {
 }
 
 #battery.charging, #battery.plugged {
-    color: #ffffff;
+    color: #bfbfbf;
     background-color: #242424;
 }
 
