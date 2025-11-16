@@ -150,6 +150,7 @@ cmp.setup {
   formatting = {
     -- Youtube: How to set up nice formatting for your sources.
     format = lspkind.cmp_format {
+    mode = 'text',
       with_text = true,
       menu = {
         buffer = "[buf]",
