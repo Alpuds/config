@@ -9,11 +9,23 @@ output="$(date '+%Y-%m-%d_%H-%M-%S').png"
 clip_cmd="wl-copy -t image/png"
 
 # case "$(printf "a selected area\\ncurrent window\\nfull screen\\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | dmenu -l 6 -i -p "Screenshot which area?")" in
-case "$(printf "a selected area\\ncurrent window\\nfull screen\\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | rofi -dmenu -l 6 -i -p "Screenshot which area?")" in
-    "a selected area") slurp | grim -g - pic-selected-"${output}" ;;
-    "current window") hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | grim -g - pic-window-"${output}" ;;
-    "full screen") grim pic-full-"${output}" ;;
-    "a selected area (copy)") slurp | grim -g - - | ${clip_cmd} ;;
-    "current window (copy)") hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | grim -g - - | ${clip_cmd} ;;
-    "full screen (copy)") grim - -| ${clip_cmd} ;;
+
+# hyprland
+# case "$(printf "a selected area\\ncurrent window\\nfull screen\\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | rofi -dmenu -l 6 -i -p "Screenshot which area?")" in
+#     "a selected area") slurp | grim -g - pic-selected-"${output}" ;;
+#     "current window") hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | grim -g - pic-window-"${output}" ;;
+#     "full screen") grim pic-full-"${output}" ;;
+#     "a selected area (copy)") slurp | grim -g - - | ${clip_cmd} ;;
+#     "current window (copy)") hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | grim -g - - | ${clip_cmd} ;;
+#     "full screen (copy)") grim - -| ${clip_cmd} ;;
+# esac
+
+
+# Niri
+case "$(printf "a selected area (ctrl-c to only copy)\\ncurrent window\\nfull screen\\ncurrent window (copy)\\nfull screen (copy)" | rofi -dmenu -l 6 -i -p "Screenshot which area?")" in
+    "a selected area (ctrl-c to only copy)") niri msg action screenshot ;;
+    "current window") niri msg action screenshot-window ;;
+    "full screen") niri msg action screenshot-screen ;;
+    "current window (copy)") niri msg action screenshot-window --write-to-disk=false ;;
+    "full screen (copy)") niri msg action screenshot-screen --write-to-disk=false ;;
 esac

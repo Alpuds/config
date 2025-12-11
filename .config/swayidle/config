@@ -1,2 +1,2 @@
-timeout 420 'hyprctl dispatcher dpms off' resume 'hyprctl dispatcher dpms on'
+timeout 420 'niri msg action power-off-monitors'
 before-sleep "hyprlock"

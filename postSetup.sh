@@ -44,8 +44,9 @@ systemctl enable --user --now waybar
 
 echo "${boldYellowTxt}Reminders${colorEND}:"
 cat << END
-- Put lat long for wlsunset in the hyprland config file:
+- Put lat long for wlsunset in the hyprland/niri config file:
 ${HOME}/.config/hypr/execs.conf
+- Put OBS websocket credentials in ${HOME}/.config/niri/config.kdl
 
 END
 
