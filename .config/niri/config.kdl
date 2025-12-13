@@ -301,10 +301,6 @@ screenshot-path "~/%Y-%m-%d_%H-%M-%S.png"
 cursor {
     hide-after-inactive-ms 5000
 }
-xwayland-satellite {
-    // off
-    path "xwayland-satellite"
-}
 
 environment {
     XCURSOR_SIZE "24"
@@ -320,7 +316,6 @@ environment {
     GTK_THEME "Gruvbox-Orange-Dark"
     GDK_SCALE "2"
     GDK_BACKEND "wayland,x11"
-    DISPLAY ":1"
 }
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
