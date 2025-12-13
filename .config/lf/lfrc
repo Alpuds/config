@@ -54,6 +54,10 @@ cmd mkfile ${{
   $EDITOR $ans
 }}
 
+cmd copy_to_clipboard ${{
+    printf '%s' "$f" | wl-copy
+}}
+
 cmd copyto ${{
 	set -f
 	dest=$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' "${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs" | fzf --prompt 'Copy to where? ' | sed 's|~|$HOME|')
@@ -215,6 +219,7 @@ map ss stripspace
 map . set hidden!
 map D delete
 map p paste
+map P copy_to_clipboard
 map x cut
 map y copy
 map C copyto
