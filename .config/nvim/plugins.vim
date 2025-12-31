@@ -42,7 +42,7 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-lua/plenary.nvim'
 
 " Visual enhancements
-Plug 'gruvbox-community/gruvbox'
+Plug 'ellisonleao/gruvbox.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ap/vim-css-color'
