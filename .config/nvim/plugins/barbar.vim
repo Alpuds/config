@@ -3,8 +3,8 @@ nnoremap <silent>    <M-,> <Cmd>BufferPrevious<CR>
 nnoremap <silent>    <M-.> <Cmd>BufferNext<CR>
 
 " Re-order to previous/next
-nnoremap <silent>    <M-<> <Cmd>BufferMovePrevious<CR>
-nnoremap <silent>    <M->> <Cmd>BufferMoveNext<CR>
+nnoremap <silent>    <M-s-,> <Cmd>BufferMovePrevious<CR>
+nnoremap <silent>    <M-s-.> <Cmd>BufferMoveNext<CR>
 
 " Goto buffer in position...
 nnoremap <silent>    <M-1> <Cmd>BufferGoto 1<CR>
@@ -19,7 +19,7 @@ nnoremap <silent>    <M-9> <Cmd>BufferGoto 9<CR>
 nnoremap <silent>    <M-0> <Cmd>BufferLast<CR>
 
 " Pin/unpin buffer
-nnoremap <silent>    <M-s-p> <Cmd>BufferPin<CR>
+" nnoremap <silent>    <M-s-p> <Cmd>BufferPin<CR>
 
 " Close buffer
 nnoremap <silent>    <M-w> <Cmd>BufferClose<CR>
@@ -37,7 +37,7 @@ nnoremap <silent>    <M-s-t> <Cmd>BufferRestore<CR>
 "                          :BufferCloseBuffersRight
 
 " Magic buffer-picking mode
-nnoremap <silent> <C-p>    <Cmd>BufferPick<CR>
+nnoremap <silent> <M-s-p>    <Cmd>BufferPick<CR>
 " nnoremap <silent> <C-w>    <Cmd>BufferPickDelete<CR>
 
 " Sort automatically by...
