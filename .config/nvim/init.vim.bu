@@ -1,3 +1,4 @@
+" Backup vimscript version
 " Install plugins
 source ~/.config/nvim/plugins.vim
 
