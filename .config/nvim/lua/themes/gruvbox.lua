@@ -1,5 +1,11 @@
 vim.o.background = "dark"
-vim.g.airline_theme = "distinguished"
+require("lualine").setup({
+    options = {
+        theme = "gruvbox-material",
+        section_separators = { left = "", right = "" },
+        component_separators = { left = "|", right = "|" },
+    }
+})
 require("gruvbox").setup({
   terminal_colors = true, -- add neovim terminal colors
   undercurl = true,

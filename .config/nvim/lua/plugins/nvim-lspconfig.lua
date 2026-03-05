@@ -1,7 +1,6 @@
 -- LSP config (the mappings used in the default file don't quite work right)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, {silent = true})
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {silent = true})
-vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, {silent = true})
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {silent = true})
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {silent = true})
 vim.keymap.set("n", "<leader>lca", vim.lsp.buf.code_action, {silent = true})

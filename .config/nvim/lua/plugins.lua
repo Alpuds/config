@@ -43,7 +43,6 @@ require("lazy").setup({
         },
         {
             "filipdutescu/renamer.nvim",
-            lazy = true,
             keys = { {"<leader>rn", "<Cmd>lua require('renamer').rename()<CR>"} },
             config = function()
                 require("plugins.renamer")
@@ -62,6 +61,7 @@ require("lazy").setup({
         },
         {
             "lukas-reineke/indent-blankline.nvim",
+            lazy = false,
             config = function()
                 require("ibl").setup()
             end
@@ -70,7 +70,6 @@ require("lazy").setup({
         -- Git integration
         {
             "tpope/vim-fugitive",
-            lazy = true,
             cmd = "G",
             keys = { {"<leader>g", "<Cmd>G<CR>"} },
             config = function()
@@ -80,7 +79,7 @@ require("lazy").setup({
         -- Auto-completion
         {
             "hrsh7th/nvim-cmp",
-            lazy = false,
+            event = "InsertEnter",
             dependencies = {
                 "hrsh7th/cmp-nvim-lsp",
                 "hrsh7th/cmp-buffer",
@@ -88,7 +87,6 @@ require("lazy").setup({
                 "hrsh7th/cmp-cmdline",
                 {
                     "L3MON4D3/LuaSnip",
-                    event = "VeryLazy",
                     -- follow latest release.
                     version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
                     -- install jsregexp (optional!).
@@ -99,7 +97,6 @@ require("lazy").setup({
                 },
                 {
                     "saadparwaiz1/cmp_luasnip",
-                    event = "VeryLazy",
                 },
                 {
                     "onsails/lspkind-nvim",
@@ -112,7 +109,6 @@ require("lazy").setup({
         -- File tree viewer
         {
             "nvim-tree/nvim-tree.lua",
-            lazy = true,
             cmd = "NvimTreeToggle",
             keys = { {"<leader>t", "<Cmd>NvimTreeToggle<CR>"} },
             config = function()
@@ -129,7 +125,6 @@ require("lazy").setup({
         },
         {
             'nvim-telescope/telescope.nvim', version = '*',
-            lazy = true,
             cmd = "Telescope",
             keys = { {"<leader>ff", "<Cmd>Telescope find_files<CR>"} },
             dependencies = {
@@ -150,8 +145,14 @@ require("lazy").setup({
                 require("themes.gruvbox")
             end
         },
-        "vim-airline/vim-airline",
-        "vim-airline/vim-airline-themes",
+        {
+            "nvim-lualine/lualine.nvim",
+            lazy = false,
+            priority = 100,
+            dependencies = {
+                "nvim-tree/nvim-web-devicons",
+            },
+        },
         "ap/vim-css-color",
         {
             "romgrk/barbar.nvim",

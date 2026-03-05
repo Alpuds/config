@@ -10,6 +10,7 @@ vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>lua require("telescope.builtin"
 vim.api.nvim_set_keymap('n', '<leader>fgr', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fgb', '<cmd>lua require("telescope.builtin").git_branches()<cr>', { noremap = true, silent = true })
+vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, {silent = true})
 
 require("telescope").setup({
     defaults = {
