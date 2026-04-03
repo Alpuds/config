@@ -153,7 +153,14 @@ require("lazy").setup({
                 "nvim-tree/nvim-web-devicons",
             },
         },
-        "ap/vim-css-color",
+        {
+            "norcalli/nvim-colorizer.lua",
+            lazy = false,
+            priority = 200,
+            config = function()
+                require'colorizer'.setup()
+            end
+        },
         {
             "romgrk/barbar.nvim",
             lazy = false,
