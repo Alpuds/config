@@ -21,13 +21,8 @@ local border = {
     { '│', 'FloatBorder' },
 }
 
--- Add the border on hover and on signature help
-local handlers = {
-    ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-    ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-}
 -- Add border to hover
-vim.opt.winborder = "rounded"
+vim.opt.winborder = "single"
 
 -- Add border to the diagnostic popup window
 vim.diagnostic.config({
