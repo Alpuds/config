@@ -40,10 +40,10 @@ vim.keymap.set("n", "<tab>", ":tabn<CR>")
 vim.keymap.set("n", "<S-tab>", ":tabp<CR>")
 
 -- Split navigation, saving a keypress
-vim.keymap.set("n", "<C-h", "<C-w>h")
-vim.keymap.set("n", "<C-j", "<C-w>j")
-vim.keymap.set("n", "<C-k", "<C-w>k")
-vim.keymap.set("n", "<C-l", "<C-w>l")
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 -- Spell-check set to <leader>o, 'o' for 'orthography'
 vim.keymap.set("n", "<leader>o", ":setlocal spell! spelllang=en_us<CR>")
