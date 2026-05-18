@@ -76,6 +76,12 @@ require("lazy").setup({
                 require("plugins.vim-fugitive")
             end
         },
+        {
+            "lewis6991/gitsigns.nvim",
+            config = function()
+                require("plugins.gitsigns")
+            end
+        },
         -- Auto-completion
         {
             "hrsh7th/nvim-cmp",
