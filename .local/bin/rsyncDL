@@ -6,8 +6,11 @@ programName=rsyncDL
 
 helpMsg(){
     cat << END
-Usage: $programName {-l[nra] | -s[nra]} IP PORT PRIVATE_KEY SOURCE DEST
-Use rsync to download/upload files from a remote computer running an SSH server.
+Usage:
+$programName -l [OPTION]... IP PORT PRIVATE_KEY SOURCE DEST
+$programName -s [OPTION]... IP PORT PRIVATE_KEY SOURCE DEST
+
+Use rsync to download (-l) or upload (-s) files from a remote computer running an SSH server.
 
 IP is the IP address of the remote machine.
 PORT is the port number of the remote machine to connect with.
@@ -15,22 +18,26 @@ PRIVATE_KEY is the path of the private key file to authenticate with.
 SOURCE is the path to copy from.
 DEST is the path to put SOURCE to (e.g., the local user's home directory if pulling from remote).
 
-  -n, --dry-run             make no changes (trial run)
+Modes
   -l, --pull                download from a remote machine
   -s, --push                upload to a remote machine
+
+OPTIONS
+  -n, --dry-run             make no changes (trial run)
   -r, --recursive           recurse into directories
   -a, --archive             archive mode is -rlptgoD
   -h, --help                display this help text and exits the script
 END
 }
 
-[ $# = 0 ] && echo "Usage: $programName {-l[nra] | -s[nra]} IP PORT PRIVATE_KEY SOURCE DEST\nTry '$programName --help' for more information." && exit 1
+[ $# = 0 ] && printf "Usage: %s {-l | -s} [OPTION]... IP PORT PRIVATE_KEY SOURCE DEST\nTry '%s --help' for more information.\n" $programName $programName >&2 && exit 1
 
 echo "$1" | grep -E "^-\w?n\w?" && doDryrun=n
 echo "$1" | grep -E "^-\w?r\w?" && doRecursive=r
 echo "$1" | grep -E "^-\w?a\w?" && doArchive=a
 
 case $1 in
+    -h | --help) helpMsg ; exit 0;;
     -*l* | --pull)
         targetIP=$2; portNum=$3; privKey=$4; source=$5; destination=$6
         rsync -vP${doDryrun}${doRecursive}${doArchive}e "ssh -p $portNum -i $privKey" "$targetIP":"$source" "$destination"
@@ -39,5 +46,4 @@ case $1 in
         targetIP=$2; portNum=$3; privKey=$4; source=$5; destination=$6
         rsync -vP${doDryrun}${doRecursive}${doArchive}e "ssh -p $portNum -i $privKey" "$source" "$targetIP":"$destination"
         ;;
-    -h | --help) helpMsg ; exit 0;;
 esac
